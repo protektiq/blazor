@@ -1,0 +1,25 @@
+﻿<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not Found</PageTitle>
+        <LayoutView Layout="typeof(Layout.MainLayout)">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-warning" role="alert">
+                            <h4 class="alert-heading">Page Not Found</h4>
+                            <p>The page you are looking for could not be found.</p>
+                            <hr>
+                            <a href="/" class="btn btn-primary">
+                                <i class="fas fa-home"></i> Go to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>

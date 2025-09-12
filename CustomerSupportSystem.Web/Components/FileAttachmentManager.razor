@@ -1,0 +1,309 @@
+@using CustomerSupportSystem.Domain.Entities
+@using CustomerSupportSystem.Data.Context
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Authorization
+@inject ApplicationDbContext DbContext
+@inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IAuthorizationService AuthorizationService
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Attachments</h5>
+        <button class="btn btn-primary btn-sm" @onclick="ShowUploadModalAsync" disabled="@isUploading">
+            @if (isUploading)
+            {
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+            }
+            else
+            {
+                <i class="fas fa-plus me-2"></i>
+            }
+            Upload File
+        </button>
+    </div>
+    <div class="card-body">
+        @if (attachments?.Any() == true)
+        {
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Size</th>
+                            <th>Uploaded By</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var attachment in attachments)
+                        {
+                            <tr>
+                                <td>
+                                    <i class="fas @GetFileIcon(attachment.ContentType) me-2"></i>
+                                    @attachment.OriginalFileName
+                                </td>
+                                <td>@FormatFileSize(attachment.FileSizeBytes)</td>
+                                <td>@attachment.UploadedBy?.FullName</td>
+                                <td>@attachment.UploadedAt.ToString("MMM dd, yyyy HH:mm")</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-primary" @onclick="() => DownloadFile(attachment.Id, attachment.DownloadToken)" title="Download">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                        @if (canDeleteAttachments)
+                                        {
+                                            <button class="btn btn-outline-danger" @onclick="() => DeleteAttachment(attachment.Id)" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted mb-0">No attachments uploaded yet.</p>
+        }
+    </div>
+</div>
+
+<!-- Upload Modal -->
+@if (showUploadModal)
+{
+    <div class="modal show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload File</h5>
+                    <button type="button" class="btn-close" @onclick="HideUploadModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Select File</label>
+                        <InputFile OnChange="OnFileSelected" class="form-control" accept=".pdf,.png,.jpg,.jpeg" />
+                        <div class="form-text">Allowed formats: PDF, PNG, JPG, JPEG (max 10MB)</div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @errorMessage
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(successMessage))
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @successMessage
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="HideUploadModal">Cancel</button>
+                    <button type="button" class="btn btn-primary" @onclick="UploadFile" disabled="@(selectedFile == null || isUploading)">
+                        @if (isUploading)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                        }
+                        Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int TicketId { get; set; }
+    [Parameter] public EventCallback OnAttachmentsChanged { get; set; }
+
+    private List<TicketAttachment>? attachments;
+    private bool showUploadModal = false;
+    private IBrowserFile? selectedFile;
+    private bool isUploading = false;
+    private string errorMessage = string.Empty;
+    private string successMessage = string.Empty;
+    private bool canDeleteAttachments = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAttachments();
+        canDeleteAttachments = await CanDeleteAttachment();
+    }
+
+    private async Task LoadAttachments()
+    {
+        try
+        {
+            attachments = await DbContext.TicketAttachments
+                .Include(a => a.UploadedBy)
+                .Where(a => a.TicketId == TicketId)
+                .OrderByDescending(a => a.UploadedAt)
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading attachments: {ex.Message}");
+        }
+    }
+
+    private async Task ShowUploadModalAsync()
+    {
+        showUploadModal = true;
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+        selectedFile = null;
+        await Task.CompletedTask;
+    }
+
+    private void HideUploadModal()
+    {
+        showUploadModal = false;
+        selectedFile = null;
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+    }
+
+    private void OnFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+    }
+
+    private async Task UploadFile()
+    {
+        if (selectedFile == null) return;
+
+        isUploading = true;
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+
+        try
+        {
+            using var content = new MultipartFormDataContent();
+            using var fileContent = new StreamContent(selectedFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024)); // 10MB
+            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
+            content.Add(fileContent, "file", selectedFile.Name);
+
+            using var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(HttpContextAccessor.HttpContext?.Request.Scheme + "://" + 
+                                           HttpContextAccessor.HttpContext?.Request.Host);
+
+            // Get the auth token from the current request
+            var authCookie = HttpContextAccessor.HttpContext?.Request.Cookies[".AspNetCore.Identity.Application"];
+            if (authCookie != null)
+            {
+                httpClient.DefaultRequestHeaders.Add("Cookie", $".AspNetCore.Identity.Application={authCookie}");
+            }
+
+            var response = await httpClient.PostAsync($"/api/attachments/upload/{TicketId}", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                successMessage = "File uploaded successfully!";
+                await LoadAttachments();
+                await OnAttachmentsChanged.InvokeAsync();
+                HideUploadModal();
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                errorMessage = $"Upload failed: {error}";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Upload failed: {ex.Message}";
+        }
+        finally
+        {
+            isUploading = false;
+        }
+    }
+
+    private async Task DownloadFile(int attachmentId, string downloadToken)
+    {
+        try
+        {
+            var url = $"/api/attachments/download/{attachmentId}?token={downloadToken}";
+            await JSRuntime.InvokeVoidAsync("open", url, "_blank");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error downloading file: {ex.Message}");
+        }
+    }
+
+    private async Task DeleteAttachment(int attachmentId)
+    {
+        if (!await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this attachment?"))
+        {
+            return;
+        }
+
+        try
+        {
+            using var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(HttpContextAccessor.HttpContext?.Request.Scheme + "://" + 
+                                           HttpContextAccessor.HttpContext?.Request.Host);
+
+            var authCookie = HttpContextAccessor.HttpContext?.Request.Cookies[".AspNetCore.Identity.Application"];
+            if (authCookie != null)
+            {
+                httpClient.DefaultRequestHeaders.Add("Cookie", $".AspNetCore.Identity.Application={authCookie}");
+            }
+
+            var response = await httpClient.DeleteAsync($"/api/attachments/{attachmentId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                await LoadAttachments();
+                await OnAttachmentsChanged.InvokeAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting attachment: {ex.Message}");
+        }
+    }
+
+    private async Task<bool> CanDeleteAttachment()
+    {
+        var currentUser = await UserManager.GetUserAsync(HttpContextAccessor.HttpContext?.User);
+        if (currentUser == null) return false;
+
+        var userRoles = await UserManager.GetRolesAsync(currentUser);
+        return userRoles.Contains("Admin") || userRoles.Contains("Agent");
+    }
+
+    private static string GetFileIcon(string contentType)
+    {
+        return contentType switch
+        {
+            "application/pdf" => "fa-file-pdf text-danger",
+            "image/png" or "image/jpeg" or "image/jpg" => "fa-file-image text-success",
+            _ => "fa-file"
+        };
+    }
+
+    private static string FormatFileSize(long bytes)
+    {
+        string[] sizes = { "B", "KB", "MB", "GB" };
+        double len = bytes;
+        int order = 0;
+        while (len >= 1024 && order < sizes.Length - 1)
+        {
+            order++;
+            len = len / 1024;
+        }
+        return $"{len:0.##} {sizes[order]}";
+    }
+}

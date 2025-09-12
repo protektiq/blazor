@@ -1,0 +1,197 @@
+@page "/"
+@using CustomerSupportSystem.Domain.Entities
+@using CustomerSupportSystem.Wasm.Services
+@inject TicketsService TicketsService
+
+<PageTitle>Dashboard</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Dashboard</h1>
+            
+            @if (isLoading)
+            {
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <!-- Statistics Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card bg-primary text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h4>@totalTickets</h4>
+                                        <p class="mb-0">Total Tickets</p>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <i class="fas fa-ticket-alt fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h4>@openTickets</h4>
+                                        <p class="mb-0">Open Tickets</p>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <i class="fas fa-folder-open fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h4>@inProgressTickets</h4>
+                                        <p class="mb-0">In Progress</p>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <i class="fas fa-cogs fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h4>@resolvedTickets</h4>
+                                        <p class="mb-0">Resolved</p>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <i class="fas fa-check-circle fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Tickets -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Recent Tickets</h5>
+                            </div>
+                            <div class="card-body">
+                                @if (recentTickets?.Any() == true)
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Title</th>
+                                                    <th>Status</th>
+                                                    <th>Priority</th>
+                                                    <th>Created</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var ticket in recentTickets.Take(5))
+                                                {
+                                                    <tr>
+                                                        <td>@ticket.Id</td>
+                                                        <td>@ticket.Title</td>
+                                                        <td>
+                                                            <span class="badge @GetStatusBadgeClass(ticket.Status)">
+                                                                @ticket.Status
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="badge @GetPriorityBadgeClass(ticket.Priority)">
+                                                                @ticket.Priority
+                                                            </span>
+                                                        </td>
+                                                        <td>@ticket.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p class="text-muted">No recent tickets found.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Ticket>? recentTickets;
+    private bool isLoading = true;
+    private int totalTickets = 0;
+    private int openTickets = 0;
+    private int inProgressTickets = 0;
+    private int resolvedTickets = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDashboardData();
+    }
+
+    private async Task LoadDashboardData()
+    {
+        isLoading = true;
+        recentTickets = await TicketsService.GetTicketsAsync();
+        
+        if (recentTickets != null)
+        {
+            totalTickets = recentTickets.Count;
+            openTickets = recentTickets.Count(t => t.Status == TicketStatus.Open);
+            inProgressTickets = recentTickets.Count(t => t.Status == TicketStatus.InProgress);
+            resolvedTickets = recentTickets.Count(t => t.Status == TicketStatus.Resolved);
+        }
+        
+        isLoading = false;
+    }
+
+    private string GetStatusBadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Open => "bg-success",
+            TicketStatus.InProgress => "bg-warning",
+            TicketStatus.Resolved => "bg-info",
+            TicketStatus.Closed => "bg-secondary",
+            TicketStatus.Reopened => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+
+    private string GetPriorityBadgeClass(TicketPriority priority)
+    {
+        return priority switch
+        {
+            TicketPriority.Low => "bg-success",
+            TicketPriority.Medium => "bg-warning",
+            TicketPriority.High => "bg-danger",
+            TicketPriority.Critical => "bg-dark",
+            _ => "bg-secondary"
+        };
+    }
+}

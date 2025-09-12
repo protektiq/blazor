@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "buildCommand": "echo 'Static site - no build needed'",
+  "installCommand": "echo 'No dependencies to install'",
+  "outputDirectory": ".",
+  "routes": [
+    {
+      "src": "/_framework/(.*)",
+      "dest": "/_framework/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|wasm|pdb|br|gz|png|ico))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

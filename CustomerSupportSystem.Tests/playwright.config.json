@@ -1,0 +1,49 @@
+{
+  "testDir": ".",
+  "testMatch": "**/*Tests.cs",
+  "timeout": 60000,
+  "expect": {
+    "timeout": 10000
+  },
+  "fullyParallel": true,
+  "forbidOnly": false,
+  "retries": 2,
+  "workers": 1,
+  "reporter": [
+    ["html"],
+    ["json", { "outputFile": "test-results/results.json" }],
+    ["junit", { "outputFile": "test-results/results.xml" }]
+  ],
+  "use": {
+    "baseURL": "http://localhost:5231",
+    "trace": "on-first-retry",
+    "screenshot": "only-on-failure",
+    "video": "retain-on-failure"
+  },
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "browserName": "chromium"
+      }
+    },
+    {
+      "name": "firefox",
+      "use": {
+        "browserName": "firefox"
+      }
+    },
+    {
+      "name": "webkit",
+      "use": {
+        "browserName": "webkit"
+      }
+    }
+  ],
+  "webServer": {
+    "command": "dotnet run --project ../CustomerSupportSystem.Web",
+    "url": "http://localhost:5231",
+    "reuseExistingServer": true,
+    "timeout": 120000
+  }
+}

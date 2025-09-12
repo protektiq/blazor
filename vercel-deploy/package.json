@@ -1,0 +1,8 @@
+{
+  "name": "blazor-static",
+  "version": "1.0.0",
+  "description": "Blazor WebAssembly Static Site",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'"
+  }
+}

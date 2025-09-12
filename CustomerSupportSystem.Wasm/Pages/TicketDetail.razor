@@ -1,0 +1,235 @@
+@page "/tickets/{TicketId:int}"
+@using CustomerSupportSystem.Domain.Entities
+@using CustomerSupportSystem.Wasm.Services
+@inject TicketsService TicketsService
+@inject NavigationManager Navigation
+
+<PageTitle>Ticket @TicketId</PageTitle>
+
+@if (ticketNotFound)
+{
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Ticket Not Found</h4>
+                    <p>The ticket with ID @TicketId could not be found.</p>
+                    <hr>
+                    <button class="btn btn-primary" @onclick="BackToTickets">
+                        <i class="fas fa-arrow-left"></i> Back to Tickets
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (ticket == null)
+{
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1>Ticket #@ticket.Id</h1>
+                    <div>
+                        <button class="btn btn-secondary me-2" @onclick="BackToTickets">
+                            <i class="fas fa-arrow-left"></i> Back to Tickets
+                        </button>
+                        <button class="btn btn-primary" @onclick="EditTicket">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- Ticket Details -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">@ticket.Title</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">@ticket.Description</p>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Status:</label>
+                                            <span class="badge @GetStatusBadgeClass(ticket.Status) ms-2">
+                                                @ticket.Status
+                                            </span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Priority:</label>
+                                            <span class="badge @GetPriorityBadgeClass(ticket.Priority) ms-2">
+                                                @ticket.Priority
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Customer:</label>
+                                            <p class="mb-0">@(ticket.Customer?.FullName ?? "N/A")</p>
+                                            @if (ticket.Customer != null)
+                                            {
+                                                <small class="text-muted">@ticket.Customer.Email</small>
+                                            }
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Assignee:</label>
+                                            <p class="mb-0">@(ticket.Assignee?.FullName ?? "Unassigned")</p>
+                                            @if (ticket.Assignee != null)
+                                            {
+                                                <small class="text-muted">@ticket.Assignee.Email</small>
+                                            }
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Created:</label>
+                                            <p class="mb-0">@ticket.CreatedAt.ToString("MMM dd, yyyy HH:mm")</p>
+                                        </div>
+                                        @if (ticket.UpdatedAt.HasValue)
+                                        {
+                                            <div class="mb-3">
+                                                <label class="form-label fw-bold">Last Updated:</label>
+                                                <p class="mb-0">@ticket.UpdatedAt.Value.ToString("MMM dd, yyyy HH:mm")</p>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comments Section -->
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Comments</h5>
+                                <button class="btn btn-primary btn-sm" @onclick="ShowAddCommentModal">
+                                    <i class="fas fa-plus"></i> Add Comment
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                @if (comments?.Any() == true)
+                                {
+                                    @foreach (var comment in comments.OrderBy(c => c.CreatedAt))
+                                    {
+                                        <div class="comment mb-3 p-3 border rounded @(comment.IsInternal ? "bg-light" : "")">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div>
+                                                    <strong>@comment.Author?.FullName</strong>
+                                                    @if (comment.IsInternal)
+                                                    {
+                                                        <span class="badge bg-warning ms-2">Internal</span>
+                                                    }
+                                                </div>
+                                                <small class="text-muted">@comment.CreatedAt.ToString("MMM dd, yyyy HH:mm")</small>
+                                            </div>
+                                            <p class="mb-0">@comment.Body</p>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="text-muted">No comments yet.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int TicketId { get; set; }
+
+    private Ticket? ticket;
+    private List<TicketComment>? comments;
+    private bool ticketNotFound = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTicket();
+        if (!ticketNotFound)
+        {
+            await LoadComments();
+        }
+    }
+
+    private async Task LoadTicket()
+    {
+        try
+        {
+            ticket = await TicketsService.GetTicketAsync(TicketId);
+            if (ticket == null)
+            {
+                ticketNotFound = true;
+            }
+        }
+        catch
+        {
+            ticketNotFound = true;
+        }
+    }
+
+    private async Task LoadComments()
+    {
+        try
+        {
+            comments = await TicketsService.GetTicketCommentsAsync(TicketId);
+        }
+        catch
+        {
+            comments = new List<TicketComment>();
+        }
+    }
+
+    private void EditTicket()
+    {
+        // For now, just show a message
+        // In a real app, you'd navigate to an edit page
+    }
+
+    private void BackToTickets()
+    {
+        Navigation.NavigateTo("/tickets");
+    }
+
+    private void ShowAddCommentModal()
+    {
+        // For now, just show a message
+        // In a real app, you'd show a modal to add comments
+    }
+
+    private string GetStatusBadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Open => "bg-success",
+            TicketStatus.InProgress => "bg-warning",
+            TicketStatus.Resolved => "bg-info",
+            TicketStatus.Closed => "bg-secondary",
+            TicketStatus.Reopened => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+
+    private string GetPriorityBadgeClass(TicketPriority priority)
+    {
+        return priority switch
+        {
+            TicketPriority.Low => "bg-success",
+            TicketPriority.Medium => "bg-warning",
+            TicketPriority.High => "bg-danger",
+            TicketPriority.Critical => "bg-dark",
+            _ => "bg-secondary"
+        };
+    }
+}

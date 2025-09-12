@@ -365,3 +365,4 @@ FodyWeavers.xsd
 # Blazor specific
 wwwroot/dist/
 *.blazor.js
+.vercel

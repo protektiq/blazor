@@ -1,0 +1,396 @@
+@page "/tickets/{TicketId:int}"
+@using CustomerSupportSystem.Domain.Entities
+@using CustomerSupportSystem.Data.Context
+@using CustomerSupportSystem.Web.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Authorization
+@inject ApplicationDbContext DbContext
+@inject UserManager<ApplicationUser> UserManager
+@inject NavigationManager Navigation
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IAuthorizationService AuthorizationService
+@rendermode InteractiveServer
+
+<PageTitle>Ticket @TicketId</PageTitle>
+
+@if (ticketNotFound)
+{
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Ticket Not Found</h4>
+                    <p>The ticket with ID @TicketId could not be found.</p>
+                    <hr>
+                    <button class="btn btn-primary" @onclick="BackToTickets">
+                        <i class="fas fa-arrow-left"></i> Back to Tickets
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (ticket == null)
+{
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Ticket #@ticket.Id - @ticket.Title</h2>
+                    <div class="btn-group">
+                        <button class="btn btn-outline-secondary" @onclick="EditTicket">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-outline-primary" @onclick="BackToTickets">
+                            <i class="fas fa-arrow-left"></i> Back to Tickets
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Description</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>@ticket.Description</p>
+                            </div>
+                        </div>
+
+                        <!-- File Attachments -->
+                        <div class="mb-4">
+                            <FileAttachmentManager TicketId="@TicketId" OnAttachmentsChanged="OnAttachmentsChanged" />
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Comments</h5>
+                                <button class="btn btn-primary btn-sm" @onclick="ShowAddCommentModal">
+                                    <i class="fas fa-plus"></i> Add Comment
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                @if (comments?.Any() == true)
+                                {
+                                    @foreach (var comment in comments.OrderBy(c => c.CreatedAt))
+                                    {
+                                        <div class="comment mb-3 p-3 border rounded @(comment.IsInternal ? "bg-light" : "")">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div>
+                                                    <strong>@comment.Author?.FullName</strong>
+                                                    @if (comment.IsInternal)
+                                                    {
+                                                        <span class="badge bg-warning ms-2">Internal</span>
+                                                    }
+                                                </div>
+                                                <small class="text-muted">@comment.CreatedAt.ToString("MMM dd, yyyy HH:mm")</small>
+                                            </div>
+                                            <p class="mb-0">@comment.Body</p>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p class="text-muted">No comments yet.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Ticket Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Status:</label>
+                                    @if (canTransitionTicket)
+                                    {
+                                        <select @bind="selectedStatus" @bind:after="UpdateTicketStatus" class="form-select form-select-sm ms-2" style="width: auto; display: inline-block;">
+                                            @foreach (TicketStatus status in Enum.GetValues<TicketStatus>())
+                                            {
+                                                <option value="@status" selected="@(status == ticket.Status)">@status</option>
+                                            }
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge @GetStatusBadgeClass(ticket.Status) ms-2">
+                                            @ticket.Status
+                                        </span>
+                                    }
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Priority:</label>
+                                    <span class="badge @GetPriorityBadgeClass(ticket.Priority) ms-2">
+                                        @ticket.Priority
+                                    </span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Customer:</label>
+                                    <p class="mb-0">@ticket.Customer?.FullName</p>
+                                    <small class="text-muted">@ticket.Customer?.Email</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Assignee:</label>
+                                    <p class="mb-0">@(ticket.Assignee?.FullName ?? "Unassigned")</p>
+                                    @if (ticket.Assignee != null)
+                                    {
+                                        <small class="text-muted">@ticket.Assignee.Email</small>
+                                    }
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Created:</label>
+                                    <p class="mb-0">@ticket.CreatedAt.ToString("MMM dd, yyyy HH:mm")</p>
+                                </div>
+                                @if (ticket.UpdatedAt.HasValue)
+                                {
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Last Updated:</label>
+                                        <p class="mb-0">@ticket.UpdatedAt.Value.ToString("MMM dd, yyyy HH:mm")</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Add Comment Modal -->
+@if (showAddCommentModal)
+{
+    <div class="modal show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Comment</h5>
+                    <button type="button" class="btn-close" @onclick="HideAddCommentModal"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="newComment" OnValidSubmit="AddComment">
+                        <DataAnnotationsValidator />
+                        <div class="mb-3">
+                            <label class="form-label">Comment</label>
+                            <InputTextArea @bind-Value="newComment.Body" class="form-control" rows="4" />
+                            <ValidationMessage For="@(() => newComment.Body)" />
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <InputCheckbox @bind-Value="newComment.IsInternal" class="form-check-input" />
+                                <label class="form-check-label">Internal Note (not visible to customer)</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @onclick="HideAddCommentModal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Add Comment</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int TicketId { get; set; }
+
+    private Ticket? ticket;
+    private List<TicketComment>? comments;
+    private bool showAddCommentModal = false;
+    private bool ticketNotFound = false;
+    private TicketComment newComment = new();
+    private bool canTransitionTicket = false;
+    private bool canEditTicket = false;
+    private TicketStatus selectedStatus;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTicket();
+        if (!ticketNotFound)
+        {
+            await LoadComments();
+            await CheckPermissions();
+        }
+    }
+
+    private async Task LoadTicket()
+    {
+        try
+        {
+            ticket = await DbContext.Tickets
+                .Include(t => t.Customer)
+                .Include(t => t.Assignee)
+                .FirstOrDefaultAsync(t => t.Id == TicketId);
+            
+            if (ticket == null)
+            {
+                ticketNotFound = true;
+                Console.WriteLine($"Ticket {TicketId} not found, setting ticketNotFound = true");
+            }
+            else
+            {
+                Console.WriteLine($"Ticket {TicketId} found: {ticket.Title}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading ticket {TicketId}: {ex.Message}");
+            ticketNotFound = true;
+        }
+        
+        StateHasChanged(); // Force re-render after async operation
+    }
+
+    private async Task CheckPermissions()
+    {
+        if (ticket == null) return;
+
+        // Check ticket transition permission
+        var transitionResult = await AuthorizationService.AuthorizeAsync(
+            HttpContextAccessor.HttpContext?.User, 
+            ticket, 
+            new TicketTransitionRequirement());
+        canTransitionTicket = transitionResult.Succeeded;
+
+        // Check ticket edit permission
+        var editResult = await AuthorizationService.AuthorizeAsync(
+            HttpContextAccessor.HttpContext?.User, 
+            ticket, 
+            new OwnTicketEditRequirement(TimeSpan.FromHours(24)));
+        canEditTicket = editResult.Succeeded;
+
+        selectedStatus = ticket.Status;
+    }
+
+    private async Task LoadComments()
+    {
+        comments = await DbContext.TicketComments
+            .Include(c => c.Author)
+            .Where(c => c.TicketId == TicketId)
+            .ToListAsync();
+    }
+
+    private void ShowAddCommentModal()
+    {
+        newComment = new TicketComment
+        {
+            TicketId = TicketId,
+            CreatedAt = DateTime.UtcNow
+        };
+        showAddCommentModal = true;
+    }
+
+    private void HideAddCommentModal()
+    {
+        showAddCommentModal = false;
+        newComment = new();
+    }
+
+    private void EditTicket()
+    {
+        Navigation.NavigateTo($"/tickets/{ticket.Id}/edit");
+    }
+
+    private void BackToTickets()
+    {
+        Navigation.NavigateTo("/tickets");
+    }
+
+    private async Task UpdateTicketStatus()
+    {
+        if (ticket == null || selectedStatus == ticket.Status) return;
+
+        try
+        {
+            using var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(HttpContextAccessor.HttpContext?.Request.Scheme + "://" + 
+                                           HttpContextAccessor.HttpContext?.Request.Host);
+
+            var authCookie = HttpContextAccessor.HttpContext?.Request.Cookies[".AspNetCore.Identity.Application"];
+            if (authCookie != null)
+            {
+                httpClient.DefaultRequestHeaders.Add("Cookie", $".AspNetCore.Identity.Application={authCookie}");
+            }
+
+            var request = new { Status = selectedStatus };
+            var json = System.Text.Json.JsonSerializer.Serialize(request);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PutAsync($"/api/tickets/{TicketId}/status", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ticket.Status = selectedStatus;
+                ticket.UpdatedAt = DateTime.UtcNow;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating ticket status: {ex.Message}");
+            selectedStatus = ticket.Status; // Revert selection
+        }
+    }
+
+    private async Task OnAttachmentsChanged()
+    {
+        // This method is called when attachments are added or removed
+        // Could be used to refresh other parts of the UI if needed
+        await Task.CompletedTask;
+    }
+
+    private async Task AddComment()
+    {
+        var currentUser = await UserManager.GetUserAsync(HttpContextAccessor.HttpContext?.User);
+        if (currentUser != null)
+        {
+            newComment.AuthorId = currentUser.Id;
+            newComment.CreatedAt = DateTime.UtcNow;
+
+            DbContext.TicketComments.Add(newComment);
+            await DbContext.SaveChangesAsync();
+
+            await LoadComments();
+            HideAddCommentModal();
+        }
+    }
+
+    private string GetStatusBadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Open => "bg-success",
+            TicketStatus.InProgress => "bg-warning",
+            TicketStatus.Resolved => "bg-info",
+            TicketStatus.Closed => "bg-secondary",
+            TicketStatus.Reopened => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+
+    private string GetPriorityBadgeClass(TicketPriority priority)
+    {
+        return priority switch
+        {
+            TicketPriority.Low => "bg-success",
+            TicketPriority.Medium => "bg-warning",
+            TicketPriority.High => "bg-danger",
+            TicketPriority.Critical => "bg-dark",
+            _ => "bg-secondary"
+        };
+    }
+}

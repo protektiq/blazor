@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/_framework/(.*)",
+      "dest": "/_framework/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|wasm|pdb|br|gz|png|ico))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

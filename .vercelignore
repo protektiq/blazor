@@ -1,0 +1,36 @@
+# Ignore .NET project files
+*.csproj
+*.sln
+*.cs
+*.razor
+
+# Ignore test projects
+CustomerSupportSystem.Tests/
+CustomerSupportSystem.Web/
+CustomerSupportSystem.Api/
+CustomerSupportSystem.Data/
+CustomerSupportSystem.Domain/
+CustomerSupportSystem.Wasm/
+
+# Ignore build artifacts
+**/bin/
+**/obj/
+**/dist/
+
+# Ignore database files
+*.db
+*.db-shm
+*.db-wal
+
+# Ignore IDE files
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+*.tmp
+*.temp

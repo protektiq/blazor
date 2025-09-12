@@ -1,0 +1,97 @@
+@page "/users"
+@using CustomerSupportSystem.Domain.Entities
+@using CustomerSupportSystem.Data.Context
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext DbContext
+@rendermode InteractiveServer
+
+<PageTitle>Users</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1>Users</h1>
+            <p>Manage system users and their roles.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (users == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">System Users</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var user in users)
+                                    {
+                                        <tr>
+                                            <td>@user.FullName</td>
+                                            <td>@user.Email</td>
+                                            <td>
+                                                <span class="badge bg-primary">@GetUserRole(user)</span>
+                                            </td>
+                                            <td>@user.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" @onclick="() => EditUser(user.Id)">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<ApplicationUser>? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsers();
+    }
+
+    private async Task LoadUsers()
+    {
+        users = await DbContext.Users
+            .OrderBy(u => u.FirstName)
+            .ThenBy(u => u.LastName)
+            .ToListAsync();
+    }
+
+    private string GetUserRole(ApplicationUser user)
+    {
+        // This is a simplified version - in a real app you'd check actual roles
+        if (user.Email?.Contains("admin") == true) return "Administrator";
+        if (user.Email?.Contains("agent") == true) return "Agent";
+        return "Customer";
+    }
+
+    private void EditUser(string userId)
+    {
+        // TODO: Implement user editing
+    }
+}
