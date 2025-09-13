@@ -1,0 +1,159 @@
+name: Dependency Update
+
+on:
+  schedule:
+    - cron: '0 9 * * 1' # Weekly on Monday at 9 AM
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Check for outdated packages
+      id: outdated
+      run: |
+        echo "🔍 Checking for outdated packages..."
+        dotnet list CustomerSupportSystem.sln package --outdated > outdated.txt || echo "No outdated packages found"
+        
+        if [ -s outdated.txt ]; then
+          echo "has_updates=true" >> $GITHUB_OUTPUT
+          echo "📦 Found outdated packages:"
+          cat outdated.txt
+        else
+          echo "has_updates=false" >> $GITHUB_OUTPUT
+          echo "✅ All packages are up to date"
+        fi
+        
+    - name: Create issue for outdated packages
+      if: steps.outdated.outputs.has_updates == 'true'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const outdatedContent = fs.readFileSync('outdated.txt', 'utf8');
+          
+          const title = `📦 Dependency Update Required - ${new Date().toISOString().split('T')[0]}`;
+          const body = `## Outdated Dependencies
+          
+          The following packages have newer versions available:
+          
+          \`\`\`
+          ${outdatedContent}
+          \`\`\`
+          
+          ## Action Required
+          
+          Please review and update the outdated packages. Consider:
+          
+          - [ ] Check for breaking changes in major version updates
+          - [ ] Update packages incrementally
+          - [ ] Test thoroughly after updates
+          - [ ] Update any related configuration
+          
+          ## Automation
+          
+          This issue was automatically created by the Dependency Update workflow.
+          `;
+          
+          // Check if issue already exists
+          const issues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'open',
+            labels: 'dependencies'
+          });
+          
+          const existingIssue = issues.data.find(issue => 
+            issue.title.includes('Dependency Update Required')
+          );
+          
+          if (!existingIssue) {
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['dependencies', 'automated']
+            });
+          } else {
+            console.log('Issue already exists, updating...');
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: existingIssue.number,
+              body: body
+            });
+          }
+
+  auto-update-patch:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' # Only run on manual trigger
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+        
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+    - name: Update patch versions
+      run: |
+        echo "🔄 Updating patch versions..."
+        
+        # Find all .csproj files
+        find . -name "*.csproj" -type f | while read -r file; do
+          echo "Processing $file"
+          
+          # Update package references to latest patch versions
+          # This is a simplified approach - you might want to use a more sophisticated tool
+          sed -i 's/Version="\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)"/Version="\1.\2.*"/g' "$file"
+        done
+        
+    - name: Restore and build
+      run: |
+        dotnet restore CustomerSupportSystem.sln
+        dotnet build CustomerSupportSystem.sln -c Release
+        
+    - name: Create pull request
+      if: github.ref == 'refs/heads/main'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "chore: update package patch versions"
+        title: "Automated dependency updates (patch versions)"
+        body: |
+          ## Automated Dependency Updates
+          
+          This PR contains automated updates to patch versions of NuGet packages.
+          
+          ### Changes
+          - Updated patch versions for compatible packages
+          - All changes have been built and verified
+          
+          ### Testing
+          - [ ] Build passes
+          - [ ] Tests pass
+          - [ ] Manual testing completed
+          
+          **Note:** This is an automated update. Please review carefully before merging.
+        branch: automated-dependency-updates
+        delete-branch: true

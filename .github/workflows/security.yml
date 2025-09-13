@@ -1,0 +1,132 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 2 * * 1' # Weekly on Monday at 2 AM
+
+jobs:
+  dependency-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Run dependency vulnerability scan
+      run: |
+        echo "🔍 Scanning for vulnerable dependencies..."
+        dotnet list CustomerSupportSystem.sln package --vulnerable --include-transitive
+        
+    - name: Check for outdated packages
+      run: |
+        echo "📦 Checking for outdated packages..."
+        dotnet list CustomerSupportSystem.sln package --outdated || echo "No outdated packages found"
+        
+    - name: Verify package integrity
+      run: |
+        echo "🔐 Verifying package integrity..."
+        dotnet restore CustomerSupportSystem.sln --force --no-cache
+
+  code-analysis:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Install SonarCloud scanner
+      run: |
+        dotnet tool install --global dotnet-sonarscanner
+        
+    - name: Build solution
+      run: make build
+      
+    - name: Run SonarCloud analysis
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        dotnet sonarscanner begin \
+          /k:"customer-support-system" \
+          /o:"your-org" \
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+          /d:sonar.host.url="https://sonarcloud.io" \
+          /d:sonar.cs.opencover.reportsPaths="coverage/coverage.opencover.xml"
+          
+        dotnet build CustomerSupportSystem.sln -c Release --no-restore
+        dotnet test CustomerSupportSystem.Tests/CustomerSupportSystem.Tests.csproj \
+          -c Release --no-build --collect:"XPlat Code Coverage"
+          
+        dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+  security-headers:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Build and start application
+      run: |
+        make build
+        cd CustomerSupportSystem.Web
+        dotnet run --configuration Release --urls http://localhost:5231 &
+        echo $! > app.pid
+        
+        # Wait for application to start
+        timeout 30s bash -c 'until curl -f http://localhost:5231; do sleep 2; done' || exit 1
+        
+    - name: Test security headers
+      run: |
+        echo "🔒 Testing security headers..."
+        
+        # Test for security headers
+        curl -I http://localhost:5231 | grep -i "x-frame-options" || echo "⚠️  Missing X-Frame-Options header"
+        curl -I http://localhost:5231 | grep -i "x-content-type-options" || echo "⚠️  Missing X-Content-Type-Options header"
+        curl -I http://localhost:5231 | grep -i "x-xss-protection" || echo "⚠️  Missing X-XSS-Protection header"
+        curl -I http://localhost:5231 | grep -i "strict-transport-security" || echo "⚠️  Missing HSTS header"
+        curl -I http://localhost:5231 | grep -i "content-security-policy" || echo "⚠️  Missing CSP header"
+        
+    - name: Stop application
+      if: always()
+      run: |
+        if [ -f CustomerSupportSystem.Web/app.pid ]; then
+          kill $(cat CustomerSupportSystem.Web/app.pid) || true
+          rm -f CustomerSupportSystem.Web/app.pid
+        fi
+
+  secrets-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Run TruffleHog OSS
+      uses: trufflesecurity/trufflehog@main
+      with:
+        path: ./
+        base: main
+        head: HEAD
+        extra_args: --debug --only-verified

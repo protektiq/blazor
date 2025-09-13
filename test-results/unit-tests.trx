@@ -1,0 +1,534 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="dba55011-3f20-4b7b-b4d0-1e5fce01fedc" name="@VENGEANCE 2025-09-13 15:34:16" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-09-13T15:34:16.4981469-07:00" queuing="2025-09-13T15:34:16.4981469-07:00" start="2025-09-13T15:34:10.8288065-07:00" finish="2025-09-13T15:35:48.5283362-07:00" />
+  <TestSettings name="default" id="76d0c84e-7e42-4184-96b6-be350edc0737">
+    <Deployment runDeploymentRoot="_VENGEANCE_2025-09-13_15_34_16" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="1a72cc80-0f41-46c2-89da-3f0ddde4f4b4" testId="1e3c2f78-a552-d61e-54fe-af3b56a26275" testName="Application_Should_Handle_Multiple_Navigation_Scenarios" computerName="VENGEANCE" duration="00:00:02.8324970" startTime="2025-09-13T15:34:21.2661372-07:00" endTime="2025-09-13T15:34:24.0986333-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1a72cc80-0f41-46c2-89da-3f0ddde4f4b4" />
+    <UnitTestResult executionId="97c449de-baa8-4a13-9b98-772de1742642" testId="2ddb296c-f00e-1763-ce69-8eacbc318a76" testName="Ticket_Detail_Page_Should_Display_Comments_Section" computerName="VENGEANCE" duration="00:00:00.6045020" startTime="2025-09-13T15:35:13.0528592-07:00" endTime="2025-09-13T15:35:13.6573610-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="97c449de-baa8-4a13-9b98-772de1742642" />
+    <UnitTestResult executionId="dec2e219-8bf7-4051-8170-ff6f32da57ae" testId="b3cc7161-00f4-9fa7-d58d-a4cf98fe4a28" testName="Application_Should_Handle_Direct_URL_Access_And_Navigation" computerName="VENGEANCE" duration="00:00:01.6771660" startTime="2025-09-13T15:34:18.9063600-07:00" endTime="2025-09-13T15:34:20.5835254-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dec2e219-8bf7-4051-8170-ff6f32da57ae" />
+    <UnitTestResult executionId="6a661e66-a36e-43b3-a39e-b119466f99c5" testId="b8963315-d6c1-3dab-116b-0535dc4bbeec" testName="Tickets_Page_Should_Display_Sample_Tickets" computerName="VENGEANCE" duration="00:00:05.6483510" startTime="2025-09-13T15:35:25.5463389-07:00" endTime="2025-09-13T15:35:31.1946891-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6a661e66-a36e-43b3-a39e-b119466f99c5">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Playwright.PlaywrightException : Locator expected to have count '3'
+But was: '5' 
+Call log:
+  - Expect "ToHaveCountAsync" with timeout 5000ms
+  - waiting for Locator("tbody tr")
+    9 × locator resolved to 5 elements
+      - unexpected value "5"</Message>
+          <StackTrace>   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, FrameExpectOptions expectOptions, Object expected, String message, String title) in /_/src/Playwright/Core/AssertionsBase.cs:line 88
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue[] expectedText, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 66
+   at CustomerSupportSystem.Tests.TicketsTests.Tickets_Page_Should_Display_Sample_Tickets() in /mnt/d/blazor/CustomerSupportSystem.Tests/TicketsTests.cs:line 78
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.&lt;&gt;c__DisplayClass1_0.&lt;Execute&gt;b__0()
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="acf72adb-e3f5-4793-969f-9e8de7bab2e8" testId="228fef1d-312e-fcc8-ae8f-a5c9198ad7f4" testName="Navigation_Should_Handle_Invalid_Routes_Gracefully" computerName="VENGEANCE" duration="00:00:01.1904290" startTime="2025-09-13T15:34:51.8933154-07:00" endTime="2025-09-13T15:34:53.0837446-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="acf72adb-e3f5-4793-969f-9e8de7bab2e8" />
+    <UnitTestResult executionId="0412d997-d98f-46e7-ad8e-ac2b1308e6f5" testId="4e893605-2eb5-3088-16ab-f45895cae01c" testName="Application_Should_Be_Accessible_On_Different_Screen_Sizes" computerName="VENGEANCE" duration="00:00:00.8554600" startTime="2025-09-13T15:35:00.5400222-07:00" endTime="2025-09-13T15:35:01.3954817-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0412d997-d98f-46e7-ad8e-ac2b1308e6f5" />
+    <UnitTestResult executionId="1ad2d22a-baca-4128-a8c4-10a5dfcf51f2" testId="d750c4e9-3798-475e-70db-207a0d4f42eb" testName="Ticket_Detail_Page_Should_Handle_Non_Existent_Ticket" computerName="VENGEANCE" duration="00:00:01.1890630" startTime="2025-09-13T15:35:15.6993378-07:00" endTime="2025-09-13T15:35:16.8884006-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1ad2d22a-baca-4128-a8c4-10a5dfcf51f2">
+      <Output>
+        <StdOut>Page title: Ticket 999
+Found 0 potential error elements</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="3614107a-4272-41ab-9a21-e0b04dcb1430" testId="824168ca-1371-045d-d155-1957c2822032" testName="Tickets_Page_Should_Display_Status_Badges" computerName="VENGEANCE" duration="00:00:05.6570620" startTime="2025-09-13T15:35:31.1947215-07:00" endTime="2025-09-13T15:35:35.9628518-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3614107a-4272-41ab-9a21-e0b04dcb1430">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Playwright.PlaywrightException : Locator expected to have count '6'
+But was: '10' 
+Call log:
+  - Expect "ToHaveCountAsync" with timeout 5000ms
+  - waiting for Locator(".badge")
+    9 × locator resolved to 10 elements
+      - unexpected value "10"</Message>
+          <StackTrace>   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, FrameExpectOptions expectOptions, Object expected, String message, String title) in /_/src/Playwright/Core/AssertionsBase.cs:line 88
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue[] expectedText, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 66
+   at CustomerSupportSystem.Tests.TicketsTests.Tickets_Page_Should_Display_Status_Badges() in /mnt/d/blazor/CustomerSupportSystem.Tests/TicketsTests.cs:line 94
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.&lt;&gt;c__DisplayClass1_0.&lt;Execute&gt;b__0()
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cf03ef7d-687b-4cf2-9b0b-75fb24696040" testId="5cdbc355-28e4-d7d8-11f2-e0c666a099ec" testName="Dashboard_Should_Have_Quick_Actions" computerName="VENGEANCE" duration="00:00:00.5852140" startTime="2025-09-13T15:34:17.6699373-07:00" endTime="2025-09-13T15:34:18.2551511-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cf03ef7d-687b-4cf2-9b0b-75fb24696040" />
+    <UnitTestResult executionId="ab05e303-b7da-4721-92da-245dd8317e96" testId="444889e4-9a88-df58-bda4-4d7d6ab8db26" testName="Tickets_Page_Should_Display_Correct_Ticket_Information" computerName="VENGEANCE" duration="00:00:05.6051280" startTime="2025-09-13T15:35:19.9411803-07:00" endTime="2025-09-13T15:35:25.5463080-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ab05e303-b7da-4721-92da-245dd8317e96">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Playwright.PlaywrightException : Locator expected to contain text '3'
+But was: '5' 
+Call log:
+  - Expect "ToContainTextAsync" with timeout 5000ms
+  - waiting for Locator("tbody tr").First.Locator("td").First
+    9 × locator resolved to &lt;td&gt;5&lt;/td&gt;
+      - unexpected value "5"</Message>
+          <StackTrace>   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, FrameExpectOptions expectOptions, Object expected, String message, String title) in /_/src/Playwright/Core/AssertionsBase.cs:line 88
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue[] expectedText, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 66
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue textValue, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 58
+   at CustomerSupportSystem.Tests.TicketsTests.Tickets_Page_Should_Display_Correct_Ticket_Information() in /mnt/d/blazor/CustomerSupportSystem.Tests/TicketsTests.cs:line 145
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.&lt;&gt;c__DisplayClass1_0.&lt;Execute&gt;b__0()
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cb70619e-55a9-4c2e-af5f-b7f848a21835" testId="aa45ca69-bbc7-4bf9-9063-dd6a8d435900" testName="Dashboard_Should_Display_Recent_Tickets" computerName="VENGEANCE" duration="00:00:00.6029139" startTime="2025-09-13T15:34:16.4743403-07:00" endTime="2025-09-13T15:34:17.0772542-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cb70619e-55a9-4c2e-af5f-b7f848a21835" />
+    <UnitTestResult executionId="41c0a7c3-46a4-43b9-9375-33211bba319c" testId="afd55622-dd46-c236-2fe9-20e8d151fea1" testName="Ticket_Detail_Page_Should_Be_Responsive_On_Mobile" computerName="VENGEANCE" duration="00:00:00.6522730" startTime="2025-09-13T15:35:04.8648332-07:00" endTime="2025-09-13T15:35:05.5171058-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="41c0a7c3-46a4-43b9-9375-33211bba319c" />
+    <UnitTestResult executionId="b01e3ef4-8110-4515-849a-046f691434e2" testId="28169d82-b035-35fe-8cff-b3062fb70d85" testName="Dashboard_Should_Display_Ticket_Statistics" computerName="VENGEANCE" duration="00:00:00.5925899" startTime="2025-09-13T15:34:17.0773192-07:00" endTime="2025-09-13T15:34:17.6699088-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b01e3ef4-8110-4515-849a-046f691434e2" />
+    <UnitTestResult executionId="d66f25a8-68e5-4f34-868b-6798a64bb9ec" testId="5c491036-8fad-a4fb-f582-b78fb82e641b" testName="Navigation_Should_Be_Responsive_On_Mobile" computerName="VENGEANCE" duration="00:00:00.6339910" startTime="2025-09-13T15:35:04.2308112-07:00" endTime="2025-09-13T15:35:04.8648026-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d66f25a8-68e5-4f34-868b-6798a64bb9ec" />
+    <UnitTestResult executionId="50c7ce39-b52b-4397-bf50-64a1b92d4bc3" testId="27ad50c3-b78d-c945-a97f-607e33e736bf" testName="Ticket_Detail_Page_Should_Display_Creation_Date" computerName="VENGEANCE" duration="00:00:00.6020529" startTime="2025-09-13T15:35:13.6573870-07:00" endTime="2025-09-13T15:35:14.2594401-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="50c7ce39-b52b-4397-bf50-64a1b92d4bc3" />
+    <UnitTestResult executionId="ef1ce2b5-1259-4f15-bee7-5a21056f6fc0" testId="fa15cfc6-1972-dee7-8def-775f30e94fb9" testName="Application_Should_Handle_Refresh_Scenarios" computerName="VENGEANCE" duration="00:00:06.3604020" startTime="2025-09-13T15:34:24.0986610-07:00" endTime="2025-09-13T15:34:30.4590620-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ef1ce2b5-1259-4f15-bee7-5a21056f6fc0">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Playwright.PlaywrightException : Locator expected to contain text 'Tickets'
+But was: '&lt;element(s) not found&gt;' 
+Call log:
+  - Expect "ToContainTextAsync" with timeout 5000ms
+  - waiting for Locator("h2")</Message>
+          <StackTrace>   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, FrameExpectOptions expectOptions, Object expected, String message, String title) in /_/src/Playwright/Core/AssertionsBase.cs:line 88
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue[] expectedText, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 66
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue textValue, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 58
+   at CustomerSupportSystem.Tests.EndToEndTests.Application_Should_Handle_Refresh_Scenarios() in /mnt/d/blazor/CustomerSupportSystem.Tests/EndToEndTests.cs:line 129
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.&lt;&gt;c__DisplayClass1_0.&lt;Execute&gt;b__0()
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fa5d2f25-32f0-4742-a731-7d911633eac1" testId="553d389e-9b12-602b-c1e0-7b9569552136" testName="Ticket_Detail_Page_Should_Show_Assignee_Information" computerName="VENGEANCE" duration="00:00:00.5940110" startTime="2025-09-13T15:35:18.1395861-07:00" endTime="2025-09-13T15:35:18.7335971-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fa5d2f25-32f0-4742-a731-7d911633eac1" />
+    <UnitTestResult executionId="eeb418ea-99a8-4779-9485-e9995a0bca5c" testId="35610e42-b196-a156-0814-96e02e45ab4d" testName="Navigation_Menu_Should_Be_Visible" computerName="VENGEANCE" duration="00:00:00.6728970" startTime="2025-09-13T15:34:44.9452108-07:00" endTime="2025-09-13T15:34:45.6181066-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eeb418ea-99a8-4779-9485-e9995a0bca5c" />
+    <UnitTestResult executionId="81bd7b29-1ac7-405a-b0f2-8f9f06f8b850" testId="f26c845b-fd01-9cb5-dbda-12411e66725b" testName="Navigation_Should_Maintain_State_Across_Pages" computerName="VENGEANCE" duration="00:00:02.2930970" startTime="2025-09-13T15:34:54.2273778-07:00" endTime="2025-09-13T15:34:56.5204749-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="81bd7b29-1ac7-405a-b0f2-8f9f06f8b850" />
+    <UnitTestResult executionId="9897abc0-8f5a-4316-ae9f-ed39c9d452d5" testId="b284e98c-2ab8-5263-7481-d3840d139fbe" testName="Navigation_Should_Handle_Direct_URL_Access" computerName="VENGEANCE" duration="00:00:05.6836010" startTime="2025-09-13T15:34:46.2096839-07:00" endTime="2025-09-13T15:34:51.8932849-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9897abc0-8f5a-4316-ae9f-ed39c9d452d5">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Playwright.PlaywrightException : Locator expected to contain text 'Tickets'
+But was: '&lt;element(s) not found&gt;' 
+Call log:
+  - Expect "ToContainTextAsync" with timeout 5000ms
+  - waiting for Locator("h2")</Message>
+          <StackTrace>   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, FrameExpectOptions expectOptions, Object expected, String message, String title) in /_/src/Playwright/Core/AssertionsBase.cs:line 88
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue[] expectedText, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 66
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue textValue, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 58
+   at CustomerSupportSystem.Tests.NavigationTests.Navigation_Should_Handle_Direct_URL_Access() in /mnt/d/blazor/CustomerSupportSystem.Tests/NavigationTests.cs:line 106
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.&lt;&gt;c__DisplayClass1_0.&lt;Execute&gt;b__0()
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="572ae68b-2dc7-4874-8e9a-86a8e55efa47" testId="396c0c77-ca27-7d9e-8316-b317553e4830" testName="Dashboard_Quick_Actions_Should_Navigate_Correctly" computerName="VENGEANCE" duration="00:00:05.2644730" startTime="2025-09-13T15:34:11.2091116-07:00" endTime="2025-09-13T15:34:16.4735526-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="572ae68b-2dc7-4874-8e9a-86a8e55efa47" />
+    <UnitTestResult executionId="98e78f8c-e0dc-44c5-a8f1-b922de36833f" testId="582cfdd4-bb53-4d5e-1245-76c6b60d4040" testName="Application_Should_Maintain_Data_Consistency" computerName="VENGEANCE" duration="00:00:01.7933510" startTime="2025-09-13T15:34:30.4591706-07:00" endTime="2025-09-13T15:34:31.3624928-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="98e78f8c-e0dc-44c5-a8f1-b922de36833f" />
+    <UnitTestResult executionId="383c75bd-c04e-4b24-8683-a3cdc8babdd2" testId="f2baa6eb-dff5-931a-673c-12522a959c2e" testName="Dashboard_Should_Be_Responsive_On_Desktop" computerName="VENGEANCE" duration="00:00:00.6575590" startTime="2025-09-13T15:35:02.2798677-07:00" endTime="2025-09-13T15:35:02.9374261-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="383c75bd-c04e-4b24-8683-a3cdc8babdd2" />
+    <UnitTestResult executionId="2f9569cc-d327-45e1-b740-742ef09c201b" testId="0ac6fcfd-d892-7c64-b858-7090b32209b1" testName="Ticket_Detail_Page_Should_Display_Customer_Information" computerName="VENGEANCE" duration="00:00:00.7106789" startTime="2025-09-13T15:35:14.2594653-07:00" endTime="2025-09-13T15:35:14.9701436-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2f9569cc-d327-45e1-b740-742ef09c201b" />
+    <UnitTestResult executionId="b32e60dd-d0ea-4fa2-a50b-f2bfad481763" testId="9331026b-e79c-5bbb-cb4a-140259af7c70" testName="Ticket_Detail_Page_Should_Load_Successfully" computerName="VENGEANCE" duration="00:00:00.6447760" startTime="2025-09-13T15:35:17.4947829-07:00" endTime="2025-09-13T15:35:18.1395586-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b32e60dd-d0ea-4fa2-a50b-f2bfad481763" />
+    <UnitTestResult executionId="a9f2ab80-f919-4f0f-a713-bd9ffda25d27" testId="032b1c40-c7ce-d110-7c85-07aa7719aea3" testName="Tickets_Page_Should_Be_Responsive_On_Mobile" computerName="VENGEANCE" duration="00:00:00.6402860" startTime="2025-09-13T15:35:05.5171322-07:00" endTime="2025-09-13T15:35:06.1574175-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a9f2ab80-f919-4f0f-a713-bd9ffda25d27" />
+    <UnitTestResult executionId="7aa34b0b-85df-426a-ae5e-0be9cd31e78c" testId="8265ef31-1365-b30e-e9d2-9f6dda018793" testName="Dashboard_Should_Be_Responsive_On_Mobile" computerName="VENGEANCE" duration="00:00:00.6447900" startTime="2025-09-13T15:35:02.9374514-07:00" endTime="2025-09-13T15:35:03.5822417-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7aa34b0b-85df-426a-ae5e-0be9cd31e78c" />
+    <UnitTestResult executionId="60df7573-ab47-4125-bb6b-44a1501b6495" testId="f7275c93-4bf1-ac17-b217-f06a752a68aa" testName="Navigation_Should_Work_Between_Pages" computerName="VENGEANCE" duration="00:00:01.8188380" startTime="2025-09-13T15:34:56.5205038-07:00" endTime="2025-09-13T15:34:58.3393411-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="60df7573-ab47-4125-bb6b-44a1501b6495" />
+    <UnitTestResult executionId="3b131125-2c64-4ddb-bba2-852149d75b7f" testId="9948a53c-a3c9-332c-82c9-ad9b839981ce" testName="Dashboard_Should_Load_Successfully" computerName="VENGEANCE" duration="00:00:00.6496850" startTime="2025-09-13T15:34:18.2551824-07:00" endTime="2025-09-13T15:34:18.9048672-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3b131125-2c64-4ddb-bba2-852149d75b7f" />
+    <UnitTestResult executionId="b40ceb7f-bd2e-4bce-9247-f5e71c6f0295" testId="e6ef9e58-41ef-7b46-b06a-ece3bbcc91e2" testName="Complete_User_Journey_Should_Work" computerName="VENGEANCE" duration="00:00:06.3167690" startTime="2025-09-13T15:34:38.6282519-07:00" endTime="2025-09-13T15:34:44.9450205-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b40ceb7f-bd2e-4bce-9247-f5e71c6f0295">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Playwright.PlaywrightException : Locator expected to contain text 'Tickets'
+But was: '&lt;element(s) not found&gt;' 
+Call log:
+  - Expect "ToContainTextAsync" with timeout 5000ms
+  - waiting for Locator("h2")</Message>
+          <StackTrace>   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, FrameExpectOptions expectOptions, Object expected, String message, String title) in /_/src/Playwright/Core/AssertionsBase.cs:line 88
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue[] expectedText, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 66
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue textValue, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 58
+   at CustomerSupportSystem.Tests.EndToEndTests.Complete_User_Journey_Should_Work() in /mnt/d/blazor/CustomerSupportSystem.Tests/EndToEndTests.cs:line 28
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.&lt;&gt;c__DisplayClass1_0.&lt;Execute&gt;b__0()
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="f13a28c1-3d56-4f53-aa4f-ca1567216468" testId="d1493df0-9d2a-9b76-c55e-871ad7a502a5" testName="Tickets_Page_Should_Display_Tickets_Table" computerName="VENGEANCE" duration="00:00:00.6274140" startTime="2025-09-13T15:35:35.9628922-07:00" endTime="2025-09-13T15:35:36.5903059-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f13a28c1-3d56-4f53-aa4f-ca1567216468" />
+    <UnitTestResult executionId="bb3d52fa-68ce-49b8-bf2f-76ff509e5ab4" testId="4be27617-f84b-7dbf-9389-39eb7b3830da" testName="Tickets_Page_Should_Load_Successfully" computerName="VENGEANCE" duration="00:00:06.1765230" startTime="2025-09-13T15:35:36.5903325-07:00" endTime="2025-09-13T15:35:42.7668555-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bb3d52fa-68ce-49b8-bf2f-76ff509e5ab4">
+      <Output>
+        <StdOut>Page title: Tickets
+Found 1 h1 elements
+Found 0 h2 elements
+Found 1 total heading elements
+Found 0 loading elements
+Found 0 error elements</StdOut>
+        <ErrorInfo>
+          <Message>Microsoft.Playwright.PlaywrightException : Locator expected to contain text 'Tickets'
+But was: '&lt;element(s) not found&gt;' 
+Call log:
+  - Expect "ToContainTextAsync" with timeout 5000ms
+  - waiting for Locator("h2")</Message>
+          <StackTrace>   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, FrameExpectOptions expectOptions, Object expected, String message, String title) in /_/src/Playwright/Core/AssertionsBase.cs:line 88
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue[] expectedText, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 66
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue textValue, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 58
+   at CustomerSupportSystem.Tests.TicketsTests.Tickets_Page_Should_Load_Successfully() in /mnt/d/blazor/CustomerSupportSystem.Tests/TicketsTests.cs:line 46
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.&lt;&gt;c__DisplayClass1_0.&lt;Execute&gt;b__0()
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="afe336d9-e37c-41cd-8d0d-13ef119047c4" testId="e3d3d3ca-42c0-a183-d908-43b0a1ade3cf" testName="Tickets_Page_Should_Show_Loading_State" computerName="VENGEANCE" duration="00:00:05.6583790" startTime="2025-09-13T15:35:42.7668882-07:00" endTime="2025-09-13T15:35:48.4252663-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="afe336d9-e37c-41cd-8d0d-13ef119047c4">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Playwright.PlaywrightException : Locator expected to contain text 'Tickets'
+But was: '&lt;element(s) not found&gt;' 
+Call log:
+  - Expect "ToContainTextAsync" with timeout 5000ms
+  - waiting for Locator("h2")</Message>
+          <StackTrace>   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, FrameExpectOptions expectOptions, Object expected, String message, String title) in /_/src/Playwright/Core/AssertionsBase.cs:line 88
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue[] expectedText, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 66
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue textValue, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 58
+   at CustomerSupportSystem.Tests.TicketsTests.Tickets_Page_Should_Show_Loading_State() in /mnt/d/blazor/CustomerSupportSystem.Tests/TicketsTests.cs:line 129
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.&lt;&gt;c__DisplayClass1_0.&lt;Execute&gt;b__0()
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="088fb975-a1db-4c0b-a925-26b6009d5034" testId="53ddf758-c39c-fc7e-339b-3ec713dfdd06" testName="Ticket_Detail_Page_Should_Display_Comment_Details" computerName="VENGEANCE" duration="00:00:00.7019840" startTime="2025-09-13T15:35:12.3508423-07:00" endTime="2025-09-13T15:35:13.0528254-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="088fb975-a1db-4c0b-a925-26b6009d5034" />
+    <UnitTestResult executionId="ec209faa-5bc1-4944-ac2c-c00fc4a3492c" testId="52349183-e08e-a381-7a0d-188d5ac14ce4" testName="Navigation_Menu_Should_Have_All_Required_Links" computerName="VENGEANCE" duration="00:00:00.5915170" startTime="2025-09-13T15:34:45.6181390-07:00" endTime="2025-09-13T15:34:46.2096558-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec209faa-5bc1-4944-ac2c-c00fc4a3492c" />
+    <UnitTestResult executionId="b18379d5-ef96-4ba9-9133-8d688228dd01" testId="3f426082-a940-18d7-0f0c-67cdec6d3801" testName="Ticket_Detail_Page_Should_Have_Action_Buttons" computerName="VENGEANCE" duration="00:00:00.6063280" startTime="2025-09-13T15:35:16.8884281-07:00" endTime="2025-09-13T15:35:17.4947556-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b18379d5-ef96-4ba9-9133-8d688228dd01" />
+    <UnitTestResult executionId="a8aa43c8-d101-4ae4-a460-5bc6a0c76258" testId="268845d5-b09d-45da-31d8-96af8af392be" testName="Dashboard_Should_Be_Responsive_On_Tablet" computerName="VENGEANCE" duration="00:00:00.6485090" startTime="2025-09-13T15:35:03.5822708-07:00" endTime="2025-09-13T15:35:04.2307794-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a8aa43c8-d101-4ae4-a460-5bc6a0c76258" />
+    <UnitTestResult executionId="0080170c-7fb8-4e73-8042-a55e826fadd5" testId="33a2a656-3574-3b2c-97d0-ddf7847d25cd" testName="Ticket_Detail_Page_Back_Button_Should_Navigate_To_Tickets_List" computerName="VENGEANCE" duration="00:00:06.1932610" startTime="2025-09-13T15:35:06.1575485-07:00" endTime="2025-09-13T15:35:12.3508095-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0080170c-7fb8-4e73-8042-a55e826fadd5">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Playwright.PlaywrightException : Locator expected to contain text 'Tickets'
+But was: 'Ticket #1 - Login Issues' 
+Call log:
+  - Expect "ToContainTextAsync" with timeout 5000ms
+  - waiting for Locator("h2")
+    9 × locator resolved to &lt;h2&gt;Ticket #1 - Login Issues&lt;/h2&gt;
+      - unexpected value "Ticket #1 - Login Issues"</Message>
+          <StackTrace>   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, FrameExpectOptions expectOptions, Object expected, String message, String title) in /_/src/Playwright/Core/AssertionsBase.cs:line 88
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue[] expectedText, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 66
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue textValue, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 58
+   at CustomerSupportSystem.Tests.TicketDetailTests.Ticket_Detail_Page_Back_Button_Should_Navigate_To_Tickets_List() in /mnt/d/blazor/CustomerSupportSystem.Tests/TicketDetailTests.cs:line 101
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.&lt;&gt;c__DisplayClass1_0.&lt;Execute&gt;b__0()
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c511cf6c-5efc-45cc-822e-394986e0c625" testId="54211430-2bd7-d1b4-590a-8e7eb09d1a02" testName="Navigation_Should_Highlight_Active_Page" computerName="VENGEANCE" duration="00:00:01.1435750" startTime="2025-09-13T15:34:53.0837760-07:00" endTime="2025-09-13T15:34:54.2273502-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c511cf6c-5efc-45cc-822e-394986e0c625" />
+    <UnitTestResult executionId="eb3d462d-1abc-4818-8da3-93d49601b16c" testId="f05bfdc9-1a74-6a5a-bd5d-7862efad4642" testName="Tickets_Page_Should_Allow_Navigation_To_Ticket_Details" computerName="VENGEANCE" duration="00:00:01.2073970" startTime="2025-09-13T15:35:18.7337578-07:00" endTime="2025-09-13T15:35:19.9411546-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eb3d462d-1abc-4818-8da3-93d49601b16c" />
+    <UnitTestResult executionId="7a5bd8c4-4d76-477f-934f-cc6329d54a3b" testId="c812f5ba-167b-b3d6-ed1b-1a7bc972f7ba" testName="Application_Should_Handle_Error_Scenarios_Gracefully" computerName="VENGEANCE" duration="00:00:00.6825440" startTime="2025-09-13T15:34:20.5835579-07:00" endTime="2025-09-13T15:34:21.2661010-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a5bd8c4-4d76-477f-934f-cc6329d54a3b" />
+    <UnitTestResult executionId="eeb368bf-c427-492d-b6c5-3bd568dba78d" testId="239515e6-c3c1-32b3-a8b4-32cc1d166633" testName="Ticket_Detail_Page_Should_Display_Ticket_Information" computerName="VENGEANCE" duration="00:00:00.7291250" startTime="2025-09-13T15:35:14.9701752-07:00" endTime="2025-09-13T15:35:15.6992997-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eeb368bf-c427-492d-b6c5-3bd568dba78d" />
+    <UnitTestResult executionId="b7c6b147-eff2-4596-92e9-b4a8a4e84371" testId="f6d55910-4b55-983e-f5c4-ecdfa9fd917f" testName="Navigation_Should_Work_With_Browser_Back_Forward" computerName="VENGEANCE" duration="00:00:02.2004980" startTime="2025-09-13T15:34:58.3393742-07:00" endTime="2025-09-13T15:35:00.5398717-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b7c6b147-eff2-4596-92e9-b4a8a4e84371" />
+    <UnitTestResult executionId="61c011dd-b2f9-4eb2-ae7c-e70d42dcf82d" testId="9dc5d616-bc84-ea46-a466-84ba313d492a" testName="Application_Should_Handle_Viewport_Changes" computerName="VENGEANCE" duration="00:00:01.7911460" startTime="2025-09-13T15:35:01.3955093-07:00" endTime="2025-09-13T15:35:02.2798348-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="61c011dd-b2f9-4eb2-ae7c-e70d42dcf82d" />
+    <UnitTestResult executionId="6f47a9b5-bd80-43bd-a3c8-2856ac3a774f" testId="413d45ae-8f3d-938b-35a4-d315a2f71675" testName="Application_Should_Work_With_Different_Browser_Actions" computerName="VENGEANCE" duration="00:00:07.2656910" startTime="2025-09-13T15:34:31.3625332-07:00" endTime="2025-09-13T15:34:38.6282239-07:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f47a9b5-bd80-43bd-a3c8-2856ac3a774f">
+      <Output>
+        <ErrorInfo>
+          <Message>Microsoft.Playwright.PlaywrightException : Locator expected to contain text 'Tickets'
+But was: '&lt;element(s) not found&gt;' 
+Call log:
+  - Expect "ToContainTextAsync" with timeout 5000ms
+  - waiting for Locator("h2")</Message>
+          <StackTrace>   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, FrameExpectOptions expectOptions, Object expected, String message, String title) in /_/src/Playwright/Core/AssertionsBase.cs:line 88
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue[] expectedText, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 66
+   at Microsoft.Playwright.Core.AssertionsBase.ExpectImplAsync(String expression, ExpectedTextValue textValue, Object expected, String message, String title, FrameExpectOptions options) in /_/src/Playwright/Core/AssertionsBase.cs:line 58
+   at CustomerSupportSystem.Tests.EndToEndTests.Application_Should_Work_With_Different_Browser_Actions() in /mnt/d/blazor/CustomerSupportSystem.Tests/EndToEndTests.cs:line 201
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.&lt;&gt;c__DisplayClass1_0.&lt;Execute&gt;b__0()
+   at NUnit.Framework.Internal.Commands.BeforeAndAfterTestCommand.RunTestMethodInThreadAbortSafeZone(TestExecutionContext context, Action action)</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Application_Should_Handle_Direct_URL_Access_And_Navigation" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="b3cc7161-00f4-9fa7-d58d-a4cf98fe4a28">
+      <Execution id="dec2e219-8bf7-4051-8170-ff6f32da57ae" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.EndToEndTests" name="Application_Should_Handle_Direct_URL_Access_And_Navigation" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Should_Display_Comments_Section" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="2ddb296c-f00e-1763-ce69-8eacbc318a76">
+      <Execution id="97c449de-baa8-4a13-9b98-772de1742642" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketDetailTests" name="Ticket_Detail_Page_Should_Display_Comments_Section" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Should_Load_Successfully" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="9331026b-e79c-5bbb-cb4a-140259af7c70">
+      <Execution id="b32e60dd-d0ea-4fa2-a50b-f2bfad481763" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketDetailTests" name="Ticket_Detail_Page_Should_Load_Successfully" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Should_Have_Action_Buttons" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="3f426082-a940-18d7-0f0c-67cdec6d3801">
+      <Execution id="b18379d5-ef96-4ba9-9133-8d688228dd01" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketDetailTests" name="Ticket_Detail_Page_Should_Have_Action_Buttons" />
+    </UnitTest>
+    <UnitTest name="Application_Should_Handle_Refresh_Scenarios" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="fa15cfc6-1972-dee7-8def-775f30e94fb9">
+      <Execution id="ef1ce2b5-1259-4f15-bee7-5a21056f6fc0" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.EndToEndTests" name="Application_Should_Handle_Refresh_Scenarios" />
+    </UnitTest>
+    <UnitTest name="Application_Should_Handle_Viewport_Changes" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="9dc5d616-bc84-ea46-a466-84ba313d492a">
+      <Execution id="61c011dd-b2f9-4eb2-ae7c-e70d42dcf82d" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.ResponsiveTests" name="Application_Should_Handle_Viewport_Changes" />
+    </UnitTest>
+    <UnitTest name="Application_Should_Handle_Error_Scenarios_Gracefully" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="c812f5ba-167b-b3d6-ed1b-1a7bc972f7ba">
+      <Execution id="7a5bd8c4-4d76-477f-934f-cc6329d54a3b" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.EndToEndTests" name="Application_Should_Handle_Error_Scenarios_Gracefully" />
+    </UnitTest>
+    <UnitTest name="Dashboard_Should_Be_Responsive_On_Tablet" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="268845d5-b09d-45da-31d8-96af8af392be">
+      <Execution id="a8aa43c8-d101-4ae4-a460-5bc6a0c76258" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.ResponsiveTests" name="Dashboard_Should_Be_Responsive_On_Tablet" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Should_Be_Responsive_On_Mobile" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="afd55622-dd46-c236-2fe9-20e8d151fea1">
+      <Execution id="41c0a7c3-46a4-43b9-9375-33211bba319c" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.ResponsiveTests" name="Ticket_Detail_Page_Should_Be_Responsive_On_Mobile" />
+    </UnitTest>
+    <UnitTest name="Tickets_Page_Should_Display_Status_Badges" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="824168ca-1371-045d-d155-1957c2822032">
+      <Execution id="3614107a-4272-41ab-9a21-e0b04dcb1430" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketsTests" name="Tickets_Page_Should_Display_Status_Badges" />
+    </UnitTest>
+    <UnitTest name="Dashboard_Should_Load_Successfully" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="9948a53c-a3c9-332c-82c9-ad9b839981ce">
+      <Execution id="3b131125-2c64-4ddb-bba2-852149d75b7f" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.DashboardTests" name="Dashboard_Should_Load_Successfully" />
+    </UnitTest>
+    <UnitTest name="Dashboard_Should_Display_Ticket_Statistics" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="28169d82-b035-35fe-8cff-b3062fb70d85">
+      <Execution id="b01e3ef4-8110-4515-849a-046f691434e2" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.DashboardTests" name="Dashboard_Should_Display_Ticket_Statistics" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Should_Display_Comment_Details" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="53ddf758-c39c-fc7e-339b-3ec713dfdd06">
+      <Execution id="088fb975-a1db-4c0b-a925-26b6009d5034" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketDetailTests" name="Ticket_Detail_Page_Should_Display_Comment_Details" />
+    </UnitTest>
+    <UnitTest name="Application_Should_Maintain_Data_Consistency" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="582cfdd4-bb53-4d5e-1245-76c6b60d4040">
+      <Execution id="98e78f8c-e0dc-44c5-a8f1-b922de36833f" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.EndToEndTests" name="Application_Should_Maintain_Data_Consistency" />
+    </UnitTest>
+    <UnitTest name="Navigation_Should_Work_With_Browser_Back_Forward" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="f6d55910-4b55-983e-f5c4-ecdfa9fd917f">
+      <Execution id="b7c6b147-eff2-4596-92e9-b4a8a4e84371" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.NavigationTests" name="Navigation_Should_Work_With_Browser_Back_Forward" />
+    </UnitTest>
+    <UnitTest name="Complete_User_Journey_Should_Work" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="e6ef9e58-41ef-7b46-b06a-ece3bbcc91e2">
+      <Execution id="b40ceb7f-bd2e-4bce-9247-f5e71c6f0295" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.EndToEndTests" name="Complete_User_Journey_Should_Work" />
+    </UnitTest>
+    <UnitTest name="Navigation_Should_Handle_Direct_URL_Access" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="b284e98c-2ab8-5263-7481-d3840d139fbe">
+      <Execution id="9897abc0-8f5a-4316-ae9f-ed39c9d452d5" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.NavigationTests" name="Navigation_Should_Handle_Direct_URL_Access" />
+    </UnitTest>
+    <UnitTest name="Tickets_Page_Should_Allow_Navigation_To_Ticket_Details" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="f05bfdc9-1a74-6a5a-bd5d-7862efad4642">
+      <Execution id="eb3d462d-1abc-4818-8da3-93d49601b16c" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketsTests" name="Tickets_Page_Should_Allow_Navigation_To_Ticket_Details" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Should_Display_Creation_Date" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="27ad50c3-b78d-c945-a97f-607e33e736bf">
+      <Execution id="50c7ce39-b52b-4397-bf50-64a1b92d4bc3" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketDetailTests" name="Ticket_Detail_Page_Should_Display_Creation_Date" />
+    </UnitTest>
+    <UnitTest name="Tickets_Page_Should_Show_Loading_State" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="e3d3d3ca-42c0-a183-d908-43b0a1ade3cf">
+      <Execution id="afe336d9-e37c-41cd-8d0d-13ef119047c4" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketsTests" name="Tickets_Page_Should_Show_Loading_State" />
+    </UnitTest>
+    <UnitTest name="Tickets_Page_Should_Display_Tickets_Table" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="d1493df0-9d2a-9b76-c55e-871ad7a502a5">
+      <Execution id="f13a28c1-3d56-4f53-aa4f-ca1567216468" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketsTests" name="Tickets_Page_Should_Display_Tickets_Table" />
+    </UnitTest>
+    <UnitTest name="Application_Should_Be_Accessible_On_Different_Screen_Sizes" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="4e893605-2eb5-3088-16ab-f45895cae01c">
+      <Execution id="0412d997-d98f-46e7-ad8e-ac2b1308e6f5" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.ResponsiveTests" name="Application_Should_Be_Accessible_On_Different_Screen_Sizes" />
+    </UnitTest>
+    <UnitTest name="Tickets_Page_Should_Be_Responsive_On_Mobile" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="032b1c40-c7ce-d110-7c85-07aa7719aea3">
+      <Execution id="a9f2ab80-f919-4f0f-a713-bd9ffda25d27" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.ResponsiveTests" name="Tickets_Page_Should_Be_Responsive_On_Mobile" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Back_Button_Should_Navigate_To_Tickets_List" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="33a2a656-3574-3b2c-97d0-ddf7847d25cd">
+      <Execution id="0080170c-7fb8-4e73-8042-a55e826fadd5" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketDetailTests" name="Ticket_Detail_Page_Back_Button_Should_Navigate_To_Tickets_List" />
+    </UnitTest>
+    <UnitTest name="Tickets_Page_Should_Display_Correct_Ticket_Information" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="444889e4-9a88-df58-bda4-4d7d6ab8db26">
+      <Execution id="ab05e303-b7da-4721-92da-245dd8317e96" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketsTests" name="Tickets_Page_Should_Display_Correct_Ticket_Information" />
+    </UnitTest>
+    <UnitTest name="Navigation_Menu_Should_Be_Visible" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="35610e42-b196-a156-0814-96e02e45ab4d">
+      <Execution id="eeb418ea-99a8-4779-9485-e9995a0bca5c" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.NavigationTests" name="Navigation_Menu_Should_Be_Visible" />
+    </UnitTest>
+    <UnitTest name="Navigation_Should_Maintain_State_Across_Pages" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="f26c845b-fd01-9cb5-dbda-12411e66725b">
+      <Execution id="81bd7b29-1ac7-405a-b0f2-8f9f06f8b850" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.NavigationTests" name="Navigation_Should_Maintain_State_Across_Pages" />
+    </UnitTest>
+    <UnitTest name="Navigation_Should_Work_Between_Pages" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="f7275c93-4bf1-ac17-b217-f06a752a68aa">
+      <Execution id="60df7573-ab47-4125-bb6b-44a1501b6495" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.NavigationTests" name="Navigation_Should_Work_Between_Pages" />
+    </UnitTest>
+    <UnitTest name="Navigation_Menu_Should_Have_All_Required_Links" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="52349183-e08e-a381-7a0d-188d5ac14ce4">
+      <Execution id="ec209faa-5bc1-4944-ac2c-c00fc4a3492c" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.NavigationTests" name="Navigation_Menu_Should_Have_All_Required_Links" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Should_Show_Assignee_Information" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="553d389e-9b12-602b-c1e0-7b9569552136">
+      <Execution id="fa5d2f25-32f0-4742-a731-7d911633eac1" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketDetailTests" name="Ticket_Detail_Page_Should_Show_Assignee_Information" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Should_Display_Ticket_Information" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="239515e6-c3c1-32b3-a8b4-32cc1d166633">
+      <Execution id="eeb368bf-c427-492d-b6c5-3bd568dba78d" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketDetailTests" name="Ticket_Detail_Page_Should_Display_Ticket_Information" />
+    </UnitTest>
+    <UnitTest name="Dashboard_Quick_Actions_Should_Navigate_Correctly" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="396c0c77-ca27-7d9e-8316-b317553e4830">
+      <Execution id="572ae68b-2dc7-4874-8e9a-86a8e55efa47" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.DashboardTests" name="Dashboard_Quick_Actions_Should_Navigate_Correctly" />
+    </UnitTest>
+    <UnitTest name="Navigation_Should_Handle_Invalid_Routes_Gracefully" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="228fef1d-312e-fcc8-ae8f-a5c9198ad7f4">
+      <Execution id="acf72adb-e3f5-4793-969f-9e8de7bab2e8" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.NavigationTests" name="Navigation_Should_Handle_Invalid_Routes_Gracefully" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Should_Display_Customer_Information" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="0ac6fcfd-d892-7c64-b858-7090b32209b1">
+      <Execution id="2f9569cc-d327-45e1-b740-742ef09c201b" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketDetailTests" name="Ticket_Detail_Page_Should_Display_Customer_Information" />
+    </UnitTest>
+    <UnitTest name="Navigation_Should_Highlight_Active_Page" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="54211430-2bd7-d1b4-590a-8e7eb09d1a02">
+      <Execution id="c511cf6c-5efc-45cc-822e-394986e0c625" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.NavigationTests" name="Navigation_Should_Highlight_Active_Page" />
+    </UnitTest>
+    <UnitTest name="Application_Should_Work_With_Different_Browser_Actions" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="413d45ae-8f3d-938b-35a4-d315a2f71675">
+      <Execution id="6f47a9b5-bd80-43bd-a3c8-2856ac3a774f" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.EndToEndTests" name="Application_Should_Work_With_Different_Browser_Actions" />
+    </UnitTest>
+    <UnitTest name="Dashboard_Should_Display_Recent_Tickets" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="aa45ca69-bbc7-4bf9-9063-dd6a8d435900">
+      <Execution id="cb70619e-55a9-4c2e-af5f-b7f848a21835" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.DashboardTests" name="Dashboard_Should_Display_Recent_Tickets" />
+    </UnitTest>
+    <UnitTest name="Tickets_Page_Should_Load_Successfully" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="4be27617-f84b-7dbf-9389-39eb7b3830da">
+      <Execution id="bb3d52fa-68ce-49b8-bf2f-76ff509e5ab4" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketsTests" name="Tickets_Page_Should_Load_Successfully" />
+    </UnitTest>
+    <UnitTest name="Ticket_Detail_Page_Should_Handle_Non_Existent_Ticket" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="d750c4e9-3798-475e-70db-207a0d4f42eb">
+      <Execution id="1ad2d22a-baca-4128-a8c4-10a5dfcf51f2" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketDetailTests" name="Ticket_Detail_Page_Should_Handle_Non_Existent_Ticket" />
+    </UnitTest>
+    <UnitTest name="Application_Should_Handle_Multiple_Navigation_Scenarios" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="1e3c2f78-a552-d61e-54fe-af3b56a26275">
+      <Execution id="1a72cc80-0f41-46c2-89da-3f0ddde4f4b4" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.EndToEndTests" name="Application_Should_Handle_Multiple_Navigation_Scenarios" />
+    </UnitTest>
+    <UnitTest name="Navigation_Should_Be_Responsive_On_Mobile" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="5c491036-8fad-a4fb-f582-b78fb82e641b">
+      <Execution id="d66f25a8-68e5-4f34-868b-6798a64bb9ec" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.ResponsiveTests" name="Navigation_Should_Be_Responsive_On_Mobile" />
+    </UnitTest>
+    <UnitTest name="Tickets_Page_Should_Display_Sample_Tickets" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="b8963315-d6c1-3dab-116b-0535dc4bbeec">
+      <Execution id="6a661e66-a36e-43b3-a39e-b119466f99c5" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.TicketsTests" name="Tickets_Page_Should_Display_Sample_Tickets" />
+    </UnitTest>
+    <UnitTest name="Dashboard_Should_Have_Quick_Actions" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="5cdbc355-28e4-d7d8-11f2-e0c666a099ec">
+      <Execution id="cf03ef7d-687b-4cf2-9b0b-75fb24696040" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.DashboardTests" name="Dashboard_Should_Have_Quick_Actions" />
+    </UnitTest>
+    <UnitTest name="Dashboard_Should_Be_Responsive_On_Mobile" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="8265ef31-1365-b30e-e9d2-9f6dda018793">
+      <Execution id="7aa34b0b-85df-426a-ae5e-0be9cd31e78c" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.ResponsiveTests" name="Dashboard_Should_Be_Responsive_On_Mobile" />
+    </UnitTest>
+    <UnitTest name="Dashboard_Should_Be_Responsive_On_Desktop" storage="/mnt/d/blazor/customersupportsystem.tests/bin/release/net8.0/customersupportsystem.tests.dll" id="f2baa6eb-dff5-931a-673c-12522a959c2e">
+      <Execution id="383c75bd-c04e-4b24-8683-a3cdc8babdd2" />
+      <TestMethod codeBase="/mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CustomerSupportSystem.Tests.ResponsiveTests" name="Dashboard_Should_Be_Responsive_On_Desktop" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="1e3c2f78-a552-d61e-54fe-af3b56a26275" executionId="1a72cc80-0f41-46c2-89da-3f0ddde4f4b4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2ddb296c-f00e-1763-ce69-8eacbc318a76" executionId="97c449de-baa8-4a13-9b98-772de1742642" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b3cc7161-00f4-9fa7-d58d-a4cf98fe4a28" executionId="dec2e219-8bf7-4051-8170-ff6f32da57ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b8963315-d6c1-3dab-116b-0535dc4bbeec" executionId="6a661e66-a36e-43b3-a39e-b119466f99c5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="228fef1d-312e-fcc8-ae8f-a5c9198ad7f4" executionId="acf72adb-e3f5-4793-969f-9e8de7bab2e8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4e893605-2eb5-3088-16ab-f45895cae01c" executionId="0412d997-d98f-46e7-ad8e-ac2b1308e6f5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d750c4e9-3798-475e-70db-207a0d4f42eb" executionId="1ad2d22a-baca-4128-a8c4-10a5dfcf51f2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="824168ca-1371-045d-d155-1957c2822032" executionId="3614107a-4272-41ab-9a21-e0b04dcb1430" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5cdbc355-28e4-d7d8-11f2-e0c666a099ec" executionId="cf03ef7d-687b-4cf2-9b0b-75fb24696040" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="444889e4-9a88-df58-bda4-4d7d6ab8db26" executionId="ab05e303-b7da-4721-92da-245dd8317e96" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aa45ca69-bbc7-4bf9-9063-dd6a8d435900" executionId="cb70619e-55a9-4c2e-af5f-b7f848a21835" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="afd55622-dd46-c236-2fe9-20e8d151fea1" executionId="41c0a7c3-46a4-43b9-9375-33211bba319c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="28169d82-b035-35fe-8cff-b3062fb70d85" executionId="b01e3ef4-8110-4515-849a-046f691434e2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5c491036-8fad-a4fb-f582-b78fb82e641b" executionId="d66f25a8-68e5-4f34-868b-6798a64bb9ec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="27ad50c3-b78d-c945-a97f-607e33e736bf" executionId="50c7ce39-b52b-4397-bf50-64a1b92d4bc3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fa15cfc6-1972-dee7-8def-775f30e94fb9" executionId="ef1ce2b5-1259-4f15-bee7-5a21056f6fc0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="553d389e-9b12-602b-c1e0-7b9569552136" executionId="fa5d2f25-32f0-4742-a731-7d911633eac1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="35610e42-b196-a156-0814-96e02e45ab4d" executionId="eeb418ea-99a8-4779-9485-e9995a0bca5c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f26c845b-fd01-9cb5-dbda-12411e66725b" executionId="81bd7b29-1ac7-405a-b0f2-8f9f06f8b850" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b284e98c-2ab8-5263-7481-d3840d139fbe" executionId="9897abc0-8f5a-4316-ae9f-ed39c9d452d5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="396c0c77-ca27-7d9e-8316-b317553e4830" executionId="572ae68b-2dc7-4874-8e9a-86a8e55efa47" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="582cfdd4-bb53-4d5e-1245-76c6b60d4040" executionId="98e78f8c-e0dc-44c5-a8f1-b922de36833f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f2baa6eb-dff5-931a-673c-12522a959c2e" executionId="383c75bd-c04e-4b24-8683-a3cdc8babdd2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0ac6fcfd-d892-7c64-b858-7090b32209b1" executionId="2f9569cc-d327-45e1-b740-742ef09c201b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9331026b-e79c-5bbb-cb4a-140259af7c70" executionId="b32e60dd-d0ea-4fa2-a50b-f2bfad481763" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="032b1c40-c7ce-d110-7c85-07aa7719aea3" executionId="a9f2ab80-f919-4f0f-a713-bd9ffda25d27" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8265ef31-1365-b30e-e9d2-9f6dda018793" executionId="7aa34b0b-85df-426a-ae5e-0be9cd31e78c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f7275c93-4bf1-ac17-b217-f06a752a68aa" executionId="60df7573-ab47-4125-bb6b-44a1501b6495" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9948a53c-a3c9-332c-82c9-ad9b839981ce" executionId="3b131125-2c64-4ddb-bba2-852149d75b7f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6ef9e58-41ef-7b46-b06a-ece3bbcc91e2" executionId="b40ceb7f-bd2e-4bce-9247-f5e71c6f0295" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d1493df0-9d2a-9b76-c55e-871ad7a502a5" executionId="f13a28c1-3d56-4f53-aa4f-ca1567216468" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4be27617-f84b-7dbf-9389-39eb7b3830da" executionId="bb3d52fa-68ce-49b8-bf2f-76ff509e5ab4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e3d3d3ca-42c0-a183-d908-43b0a1ade3cf" executionId="afe336d9-e37c-41cd-8d0d-13ef119047c4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="53ddf758-c39c-fc7e-339b-3ec713dfdd06" executionId="088fb975-a1db-4c0b-a925-26b6009d5034" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="52349183-e08e-a381-7a0d-188d5ac14ce4" executionId="ec209faa-5bc1-4944-ac2c-c00fc4a3492c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f426082-a940-18d7-0f0c-67cdec6d3801" executionId="b18379d5-ef96-4ba9-9133-8d688228dd01" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="268845d5-b09d-45da-31d8-96af8af392be" executionId="a8aa43c8-d101-4ae4-a460-5bc6a0c76258" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="33a2a656-3574-3b2c-97d0-ddf7847d25cd" executionId="0080170c-7fb8-4e73-8042-a55e826fadd5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="54211430-2bd7-d1b4-590a-8e7eb09d1a02" executionId="c511cf6c-5efc-45cc-822e-394986e0c625" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f05bfdc9-1a74-6a5a-bd5d-7862efad4642" executionId="eb3d462d-1abc-4818-8da3-93d49601b16c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c812f5ba-167b-b3d6-ed1b-1a7bc972f7ba" executionId="7a5bd8c4-4d76-477f-934f-cc6329d54a3b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="239515e6-c3c1-32b3-a8b4-32cc1d166633" executionId="eeb368bf-c427-492d-b6c5-3bd568dba78d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f6d55910-4b55-983e-f5c4-ecdfa9fd917f" executionId="b7c6b147-eff2-4596-92e9-b4a8a4e84371" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9dc5d616-bc84-ea46-a466-84ba313d492a" executionId="61c011dd-b2f9-4eb2-ae7c-e70d42dcf82d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="413d45ae-8f3d-938b-35a4-d315a2f71675" executionId="6f47a9b5-bd80-43bd-a3c8-2856ac3a774f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="45" executed="45" passed="35" failed="10" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 4.0.0.0: Test execution started
+Running selected tests in /mnt/d/blazor/CustomerSupportSystem.Tests/bin/Release/net8.0/CustomerSupportSystem.Tests.dll
+   NUnit3TestExecutor discovered 45 of 45 NUnit test cases using Current Discovery mode, Non-Explicit run
+Page title: Ticket 999
+Found 0 potential error elements
+
+Page title: Tickets
+Found 1 h1 elements
+Found 0 h2 elements
+Found 1 total heading elements
+Found 0 loading elements
+Found 0 error elements
+
+NUnit Adapter 4.0.0.0: Test execution complete
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,116 @@
+name: CI - Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  SOLUTION_FILE: 'CustomerSupportSystem.sln'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Cache .NET packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+          
+    - name: Cache build artifacts
+      uses: actions/cache@v4
+      with:
+        path: |
+          **/bin
+          **/obj
+        key: ${{ runner.os }}-build-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-build-
+          
+    - name: Make build script executable
+      run: chmod +x build.sh
+      
+    - name: Build solution
+      run: make ci-build
+      
+    - name: Run CI tests
+      run: make ci-test
+      
+    - name: Publish applications
+      run: make publish
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: |
+          dist/
+          api-dist/
+          test-results/
+        retention-days: 7
+        
+    - name: Upload build logs
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: build-logs
+        path: build.log
+        retention-days: 7
+
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Run security scan
+      run: |
+        dotnet list ${{ env.SOLUTION_FILE }} package --vulnerable --include-transitive
+        
+    - name: Run code analysis
+      run: make lint
+
+  dependency-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.SOLUTION_FILE }}
+      
+    - name: Check for outdated packages
+      run: |
+        echo "Checking for outdated packages..."
+        dotnet list ${{ env.SOLUTION_FILE }} package --outdated || echo "No outdated packages found"
+        
+    - name: Verify package integrity
+      run: |
+        echo "Verifying package integrity..."
+        dotnet restore ${{ env.SOLUTION_FILE }} --force

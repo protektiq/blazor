@@ -1,0 +1,162 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch: # Allow manual triggering
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  SOLUTION_FILE: 'CustomerSupportSystem.sln'
+  APP_URL: 'http://localhost:5231'
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Setup Node.js (for Playwright)
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Cache .NET packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+          
+    - name: Cache Playwright browsers
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/playwright.config.json') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
+          
+    - name: Build solution
+      run: make build
+      
+    - name: Install Playwright browsers
+      run: |
+        cd CustomerSupportSystem.Tests
+        dotnet build
+        pwsh bin/Debug/net8.0/playwright.ps1 install
+        
+    - name: Start application
+      run: |
+        cd CustomerSupportSystem.Web
+        dotnet run --configuration Release --urls ${{ env.APP_URL }} &
+        echo $! > app.pid
+        
+        # Wait for application to start
+        timeout 60s bash -c 'until curl -f ${{ env.APP_URL }}; do sleep 2; done' || exit 1
+        echo "Application started successfully"
+        
+    - name: Run E2E tests
+      run: |
+        cd CustomerSupportSystem.Tests
+        dotnet test --configuration Release --logger "trx;LogFileName=e2e-tests.trx" --results-directory ../test-results
+        
+    - name: Stop application
+      if: always()
+      run: |
+        if [ -f CustomerSupportSystem.Web/app.pid ]; then
+          kill $(cat CustomerSupportSystem.Web/app.pid) || true
+          rm -f CustomerSupportSystem.Web/app.pid
+        fi
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: e2e-test-results
+        path: |
+          test-results/
+          screenshots/
+        retention-days: 7
+        
+    - name: Upload test report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: e2e-test-report
+        path: CustomerSupportSystem.Tests/test-results/
+        retention-days: 7
+
+  e2e-tests-matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Build solution
+      run: make build
+      
+    - name: Install Playwright browsers
+      run: |
+        cd CustomerSupportSystem.Tests
+        dotnet build
+        pwsh bin/Debug/net8.0/playwright.ps1 install
+        
+    - name: Start application
+      run: |
+        cd CustomerSupportSystem.Web
+        dotnet run --configuration Release --urls ${{ env.APP_URL }} &
+        echo $! > app.pid
+        
+        # Wait for application to start
+        timeout 60s bash -c 'until curl -f ${{ env.APP_URL }}; do sleep 2; done' || exit 1
+        echo "Application started successfully"
+        
+    - name: Run E2E tests on ${{ matrix.browser }}
+      run: |
+        cd CustomerSupportSystem.Tests
+        dotnet test --configuration Release \
+          --filter "Browser=${{ matrix.browser }}" \
+          --logger "trx;LogFileName=e2e-tests-${{ matrix.browser }}.trx" \
+          --results-directory ../test-results
+          
+    - name: Stop application
+      if: always()
+      run: |
+        if [ -f CustomerSupportSystem.Web/app.pid ]; then
+          kill $(cat CustomerSupportSystem.Web/app.pid) || true
+          rm -f CustomerSupportSystem.Web/app.pid
+        fi
+        
+    - name: Upload test results for ${{ matrix.browser }}
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: e2e-test-results-${{ matrix.browser }}
+        path: |
+          test-results/
+          screenshots/
+        retention-days: 7

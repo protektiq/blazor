@@ -1,0 +1,137 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Allow manual deployment
+
+env:
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  deploy-wasm:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Cache .NET packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+          
+    - name: Build WASM application
+      run: |
+        make build-wasm
+        make publish-wasm
+        
+    - name: Verify build output
+      run: |
+        echo "Build output contents:"
+        ls -la dist/
+        echo "Verifying WASM files:"
+        ls -la dist/wwwroot/_framework/ || echo "No _framework directory found"
+        
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        working-directory: ./dist
+        vercel-args: '--prod'
+        
+    - name: Get deployment URL
+      id: vercel
+      run: |
+        echo "url=$(cat dist/.vercel/output.json | jq -r '.url')" >> $GITHUB_OUTPUT
+        
+    - name: Comment deployment URL
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `🚀 **WASM App Deployed to Vercel!**
+            
+            **Deployment URL:** ${{ steps.vercel.outputs.url }}
+            
+            The Blazor WebAssembly application has been successfully deployed to Vercel.`
+          })
+          
+    - name: Create deployment status
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.repos.createDeploymentStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            deployment_id: context.payload.deployment.id,
+            state: 'success',
+            environment_url: '${{ steps.vercel.outputs.url }}',
+            description: 'WASM app successfully deployed to Vercel'
+          })
+
+  deploy-api:
+    runs-on: ubuntu-latest
+    needs: deploy-wasm
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Cache .NET packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+          
+    - name: Build API application
+      run: |
+        make build-api
+        make publish-api
+        
+    - name: Verify API build
+      run: |
+        echo "API build output:"
+        ls -la api-dist/
+        
+    - name: Deploy API to Azure (if configured)
+      if: ${{ secrets.AZURE_CREDENTIALS }}
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Deploy API to Azure App Service
+      if: ${{ secrets.AZURE_CREDENTIALS }}
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ secrets.AZURE_APP_NAME }}
+        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        package: ./api-dist
+        
+    - name: Upload API artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: api-deployment-artifacts
+        path: api-dist/
+        retention-days: 30
