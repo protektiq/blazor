@@ -172,6 +172,10 @@ namespace CustomerSupportSystem.Data.Migrations
                     b.Property<string>("AssigneeId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 

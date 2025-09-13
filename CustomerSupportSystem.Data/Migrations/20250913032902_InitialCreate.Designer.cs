@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerSupportSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250912203906_AddFileAttachmentsAndEmailIngestion")]
-    partial class AddFileAttachmentsAndEmailIngestion
+    [Migration("20250913032902_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,6 +173,10 @@ namespace CustomerSupportSystem.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AssigneeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")

@@ -13,6 +13,9 @@ public class Ticket
     [Required]
     public string Description { get; set; } = string.Empty;
     
+    [Required]
+    public string Category { get; set; } = string.Empty;
+    
     public TicketStatus Status { get; set; } = TicketStatus.Open;
     
     public TicketPriority Priority { get; set; } = TicketPriority.Medium;
@@ -21,13 +24,12 @@ public class Ticket
     
     public DateTime? UpdatedAt { get; set; }
     
-    [Required]
-    public string CustomerId { get; set; } = string.Empty;
+    public string? CustomerId { get; set; }
     
     public string? AssigneeId { get; set; }
     
     // Navigation properties
-    public virtual ApplicationUser Customer { get; set; } = null!;
+    public virtual ApplicationUser? Customer { get; set; }
     public virtual ApplicationUser? Assignee { get; set; }
     public virtual ICollection<TicketComment> Comments { get; set; } = new List<TicketComment>();
     public virtual ICollection<TicketAttachment> Attachments { get; set; } = new List<TicketAttachment>();

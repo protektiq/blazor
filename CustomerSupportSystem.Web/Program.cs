@@ -97,6 +97,12 @@ app.UseAntiforgery();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Configure path base for Elastic Beanstalk
+if (!app.Environment.IsDevelopment())
+{
+    app.UsePathBase("/");
+}
+
 // Map API controllers
 app.MapControllers();
 

@@ -1,0 +1,220 @@
+@page "/tickets/new"
+@using CustomerSupportSystem.Domain.Entities
+@using CustomerSupportSystem.Data.Context
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.Authorization
+@inject ApplicationDbContext DbContext
+@inject UserManager<ApplicationUser> UserManager
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@rendermode InteractiveServer
+
+<PageTitle>Create New Ticket</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Create New Ticket</h1>
+                <button class="btn btn-secondary" @onclick="Cancel">
+                    <i class="fas fa-arrow-left"></i> Back to Tickets
+                </button>
+            </div>
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle"></i> @successMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <div class="card">
+                <div class="card-body">
+                    <EditForm Model="@newTicket" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Title *</label>
+                                    <InputText id="title" @bind-Value="newTicket.Title" class="form-control" placeholder="Enter ticket title" />
+                                    <ValidationMessage For="@(() => newTicket.Title)" class="text-danger" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="customerName" class="form-label">Your Name *</label>
+                                    <InputText id="customerName" @bind-Value="customerName" class="form-control" placeholder="Enter your name" />
+                                    <ValidationMessage For="@(() => customerName)" class="text-danger" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="priority" class="form-label">Priority *</label>
+                                    <InputSelect id="priority" @bind-Value="newTicket.Priority" class="form-select">
+                                        <option value="@TicketPriority.Low">Low</option>
+                                        <option value="@TicketPriority.Medium">Medium</option>
+                                        <option value="@TicketPriority.High">High</option>
+                                        <option value="@TicketPriority.Critical">Critical</option>
+                                    </InputSelect>
+                                    <ValidationMessage For="@(() => newTicket.Priority)" class="text-danger" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <InputSelect id="status" @bind-Value="newTicket.Status" class="form-select">
+                                        <option value="@TicketStatus.Open">Open</option>
+                                        <option value="@TicketStatus.InProgress">In Progress</option>
+                                        <option value="@TicketStatus.Resolved">Resolved</option>
+                                        <option value="@TicketStatus.Closed">Closed</option>
+                                    </InputSelect>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category *</label>
+                            <InputSelect id="category" @bind-Value="newTicket.Category" class="form-select">
+                                <option value="">Select Category</option>
+                                <option value="Technical">Technical</option>
+                                <option value="Billing">Billing</option>
+                                <option value="General">General</option>
+                                <option value="Feature Request">Feature Request</option>
+                                <option value="Bug Report">Bug Report</option>
+                            </InputSelect>
+                            <ValidationMessage For="@(() => newTicket.Category)" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description *</label>
+                            <InputTextArea id="description" @bind-Value="newTicket.Description" class="form-control" rows="5" placeholder="Describe your issue or request in detail..." />
+                            <ValidationMessage For="@(() => newTicket.Description)" class="text-danger" />
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+                            <button type="button" class="btn btn-primary" disabled="@isSubmitting" @onclick="HandleSubmit">
+                                @if (isSubmitting)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    <span>Creating...</span>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-save"></i> @("Create Ticket")
+                                }
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Ticket newTicket = new();
+    private bool isSubmitting = false;
+    private string customerName = string.Empty;
+    private string? successMessage;
+
+    protected override void OnInitialized()
+    {
+        newTicket.Status = TicketStatus.Open;
+        newTicket.CreatedAt = DateTime.UtcNow;
+        newTicket.CustomerId = "anonymous-user"; // Set a default customer ID for anonymous users
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        Console.WriteLine("HandleValidSubmit called");
+        
+        isSubmitting = true;
+        try
+        {
+            Console.WriteLine($"Creating ticket: {newTicket.Title} for customer: {customerName}");
+            Console.WriteLine($"CustomerId before save: {newTicket.CustomerId}");
+            
+            newTicket.CreatedAt = DateTime.UtcNow;
+            newTicket.UpdatedAt = DateTime.UtcNow;
+            
+            Console.WriteLine($"CustomerId after timestamp update: {newTicket.CustomerId}");
+            
+            DbContext.Tickets.Add(newTicket);
+            await DbContext.SaveChangesAsync();
+            
+            var createdTicketId = newTicket.Id;
+            Console.WriteLine($"Ticket created with ID: {createdTicketId}");
+            
+            // Show success message
+            successMessage = $"Ticket created successfully! Ticket ID: {createdTicketId}";
+            
+            // Clear the form
+            newTicket = new Ticket
+            {
+                Status = TicketStatus.Open,
+                CreatedAt = DateTime.UtcNow,
+                CustomerId = "anonymous-user"
+            };
+            customerName = string.Empty;
+            
+            // Navigate to the ticket detail page after a short delay
+            await Task.Delay(2000);
+            Navigation.NavigateTo($"/tickets/{createdTicketId}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating ticket: {ex.Message}");
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            // Handle error - you might want to show a toast notification
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/tickets");
+    }
+
+    private async Task HandleSubmit()
+    {
+        Console.WriteLine("HandleSubmit called");
+        
+        // Manual validation
+        if (string.IsNullOrWhiteSpace(newTicket.Title))
+        {
+            Console.WriteLine("Title is required");
+            return;
+        }
+        
+        if (string.IsNullOrWhiteSpace(customerName))
+        {
+            Console.WriteLine("Customer name is required");
+            return;
+        }
+        
+        if (string.IsNullOrWhiteSpace(newTicket.Category))
+        {
+            Console.WriteLine("Category is required");
+            return;
+        }
+        
+        if (string.IsNullOrWhiteSpace(newTicket.Description))
+        {
+            Console.WriteLine("Description is required");
+            return;
+        }
+        
+        // If validation passes, call the original method
+        await HandleValidSubmit();
+    }
+}

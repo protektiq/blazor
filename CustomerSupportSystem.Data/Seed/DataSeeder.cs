@@ -90,6 +90,24 @@ public static class DataSeeder
             await userManager.CreateAsync(customerUser, "Customer123!");
             await userManager.AddToRoleAsync(customerUser, "Customer");
         }
+
+        // Anonymous user for tickets without authentication
+        var anonymousUser = await userManager.FindByIdAsync("anonymous-user");
+        if (anonymousUser == null)
+        {
+            anonymousUser = new ApplicationUser
+            {
+                Id = "anonymous-user",
+                UserName = "anonymous@system.com",
+                Email = "anonymous@system.com",
+                FirstName = "Anonymous",
+                LastName = "User",
+                EmailConfirmed = true,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            await userManager.CreateAsync(anonymousUser, "Anonymous123!");
+        }
     }
 
     private static async Task SeedTicketsAsync(ApplicationDbContext context)
