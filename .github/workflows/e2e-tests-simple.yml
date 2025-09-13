@@ -1,0 +1,78 @@
+name: E2E Tests (Simple)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch: # Allow manual triggering
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  SOLUTION_FILE: 'CustomerSupportSystem.sln'
+  APP_URL: 'http://localhost:5231'
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Cache .NET packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+          
+    - name: Build solution
+      run: |
+        dotnet restore CustomerSupportSystem.sln
+        dotnet build CustomerSupportSystem.sln -c Release --no-restore
+        
+    - name: Install Playwright browsers
+      run: |
+        cd CustomerSupportSystem.Tests
+        dotnet tool install --global Microsoft.Playwright.CLI
+        playwright install
+        
+    - name: Start application
+      run: |
+        cd CustomerSupportSystem.Web
+        dotnet run --configuration Release --urls ${{ env.APP_URL }} &
+        echo $! > app.pid
+        
+        # Wait for application to start
+        timeout 60s bash -c 'until curl -f ${{ env.APP_URL }}; do sleep 2; done' || exit 1
+        echo "Application started successfully"
+        
+    - name: Run E2E tests
+      run: |
+        cd CustomerSupportSystem.Tests
+        dotnet test --configuration Release --logger "trx;LogFileName=e2e-tests.trx" --results-directory ../test-results
+        
+    - name: Stop application
+      if: always()
+      run: |
+        if [ -f CustomerSupportSystem.Web/app.pid ]; then
+          kill $(cat CustomerSupportSystem.Web/app.pid) || true
+          rm -f CustomerSupportSystem.Web/app.pid
+        fi
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: e2e-test-results
+        path: |
+          test-results/
+          screenshots/
+        retention-days: 7

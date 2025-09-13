@@ -1,0 +1,59 @@
+name: Deploy - Simple
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Allow manual deployment
+
+env:
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        
+    - name: Cache .NET packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+          
+    - name: Build and publish WASM
+      run: |
+        dotnet restore CustomerSupportSystem.sln
+        dotnet publish CustomerSupportSystem.Wasm/CustomerSupportSystem.Wasm.csproj -c Release -o ./dist
+        
+    - name: Verify build output
+      run: |
+        echo "Build output contents:"
+        ls -la dist/
+        echo "Verifying WASM files:"
+        ls -la dist/wwwroot/_framework/ || echo "No _framework directory found"
+        
+    - name: Deploy to Vercel (if token provided)
+      if: ${{ secrets.VERCEL_TOKEN }}
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        working-directory: ./dist
+        vercel-args: '--prod'
+        
+    - name: Upload deployment artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: deployment-artifacts
+        path: dist/
+        retention-days: 30
